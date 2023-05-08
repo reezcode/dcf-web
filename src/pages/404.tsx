@@ -1,8 +1,10 @@
+import { EmptyLayout } from "@/components/layout";
 import Link from "next/link";
 
 export default function Error404() {
   return (
-  <section className="flex items-center justify-center h-full p-16 dark:bg-gray-900 dark:text-gray-100 m-font">
+  <EmptyLayout pageTitle="404 Page Not Found">
+    <section className="flex items-center justify-center h-full p-16 dark:bg-gray-900 dark:text-gray-100 m-font">
     <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
       <div className="max-w-md text-center">
         <h2 className="mb-8 font-extrabold text-9xl text-slate-400 dark:text-gray-600">
@@ -14,5 +16,6 @@ export default function Error404() {
       </div>
     </div>
   </section>
+  </EmptyLayout>
   )
 }

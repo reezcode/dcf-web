@@ -8,17 +8,17 @@ import { useCookies } from "react-cookie";
 export default function index() {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const router = useRouter();
-    useEffect(()=> {
+  useEffect(()=> {
         if(!cookies.user) {
-            router.push('/');
+            router.push('/404');
         }
   }, [cookies]);
   return (
     <EmptyLayout pageTitle="Dashboard">
         <p>Dashboard</p>
         <form onSubmit={() => {
-          removeCookie('user');
           router.push('/');
+          removeCookie('user');
         }} >
         <Button type="submit" className="bg-dcf-dark-brown">Log Out</Button>
         </form>

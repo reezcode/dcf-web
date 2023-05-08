@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Url } from "next/dist/shared/lib/router/router";
+import { ReactNode } from "react";
 
 interface ButtonProps {
   link: Url;
