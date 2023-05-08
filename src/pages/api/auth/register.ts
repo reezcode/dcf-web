@@ -5,7 +5,6 @@ import bcrypt from 'bcryptjs';
 export default async function registerHandler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const { nama, email, password, asal_sekolah, event } = req.body;
-
     const existingUser = await prisma.user.findUnique({
       where: {
         email,

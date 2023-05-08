@@ -1,9 +1,10 @@
-import { Autocomplete, Box, Button, Input, TextInput, PasswordInput } from '@mantine/core';
+import { Autocomplete, Button, TextInput, PasswordInput } from '@mantine/core';
 import { At, Fingerprint, School, UserCircle } from 'tabler-icons-react';
 import Link from "next/link";
 import { useForm, isNotEmpty, isEmail, matchesField, hasLength } from '@mantine/form';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { notifications } from '@mantine/notifications';
 
 interface dataProps {
     dataSekolah: Array<any>;
@@ -46,11 +47,23 @@ function RegistrationForm(props: dataProps) {
           },
           body: JSON.stringify(values),
         });
+        if (response.status === 409){
+            notifications.show({
+                title: 'Peringatan',
+                message: 'Email sudah terdaftar!',
+                color: 'red',
+            });
+        } 
         if (response.ok) {
-          router.push('/login');
+            router.push('/login');
+            notifications.show({
+                title: 'Sukses',
+                message: 'Akun anda berhasil dibuat!',
+                color: 'green',
+            })
         } else {
-          const data = await response.json();
-          setError(data.message);
+            const data = await response.json();
+            setError(data.message);
         }
       };
     return (
@@ -62,7 +75,6 @@ function RegistrationForm(props: dataProps) {
                 password: values.password,
                 event: '',
             }
-            console.log(dataUp);
             register(dataUp);
         })}>
         <div className="mt-5">
