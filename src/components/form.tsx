@@ -1,10 +1,10 @@
-import { Autocomplete, Button, TextInput, PasswordInput } from '@mantine/core';
-import { At, Fingerprint, School, UserCircle } from 'tabler-icons-react';
+import { Autocomplete, Button, PasswordInput, TextInput } from '@mantine/core';
+import { hasLength, isEmail, isNotEmpty, matchesField, useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 import Link from "next/link";
-import { useForm, isNotEmpty, isEmail, matchesField, hasLength } from '@mantine/form';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { notifications } from '@mantine/notifications';
+import { At, Fingerprint, School, UserCircle } from 'tabler-icons-react';
 
 interface dataProps {
     dataSekolah: Array<any>;
@@ -138,5 +138,6 @@ function RegistrationForm(props: dataProps) {
         </form>
     )
 }
-  
-export  { RegistrationForm }
+
+
+export { RegistrationForm };

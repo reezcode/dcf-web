@@ -32,8 +32,8 @@ const handler = withSessionRoute(async (req: NextApiRequest, res: NextApiRespons
     email: user.email,
   }
   await req.session.save();
-  res.status(200).json({ message: 'Logged in' });
   res.redirect('/dashboard');
+  return res.status(201).json({ message: 'Logged in' });
 });
 
 export default handler;

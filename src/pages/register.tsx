@@ -1,12 +1,21 @@
 import Image from "next/image";
 import { EmptyLayout } from "@/components/layout";
 import { RegistrationForm } from "@/components/form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/router";
 interface SekolahProps {
     dataSekolah: Array<any>;
 }
 
 export default function register({dataSekolah}:SekolahProps) {
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    const router = useRouter();
+    useEffect(()=> {
+        if(cookies.user) {
+            router.replace('/dashboard');
+        }
+    }, [cookies]);
     return (
         <EmptyLayout pageTitle="Register">
         <div className="w-screen h-screen bg-center bg-cover" style={{
