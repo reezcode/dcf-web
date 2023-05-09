@@ -21,7 +21,7 @@ export default function perlombaan() {
                                     <h1 className="px-4 font-semibold">Kompetisi Kimia</h1>
                                     <p className="w-3/5 px-4 py-2">The Role of Green Chemistry to Maintain the Sustainable Energy</p>
                                     <div className='flex'>
-                                        <Buttons text='Daftar' link=''/>
+                                        <Buttons text='Daftar' link='/dashboard/kompetisi'/>
                                         <Buttons text='Panduan' link=''/>
                                         <Buttons text='Juknis' link=''/>
                                     </div>  
@@ -32,7 +32,7 @@ export default function perlombaan() {
                                     <h1 className="px-4 font-semibold">Lomba Karya Tulis Ilmiah</h1>
                                     <p className="w-3/5 px-4 py-2">The Role of Green Chemistry to Maintain the Sustainable Energy</p>
                                     <div className='flex'>
-                                        <Buttons text='Daftar' link=''/>
+                                        <Buttons text='Daftar' link='/dashboard/lkti'/>
                                         <Buttons text='Panduan' link=''/>
                                         <Buttons text='Juknis' link=''/>
                                     </div>  
