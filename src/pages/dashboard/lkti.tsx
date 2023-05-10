@@ -17,7 +17,8 @@ export default function profil() {
             }}>
                 <div className="flex w-full h-full mb-4 backdrop-blur-3xl">
                     <Sidebar/>
-                    <div className="w-full pb-16 h-fit lg:h-screen p-7">
+                    {/* pendaftaran */}
+                    {/* <div className="w-full pb-16 h-fit lg:h-screen p-7">
                         <h2 className="my-2 text-xl font-bold">Kompetisi Kimia</h2>
                         <div className='flex flex-col h-full grid-cols-2 grid-rows-6 gap-4 md:grid'>
                             <div className='flex items-center justify-center w-full h-full px-1 py-2 m-auto bg-white rounded-md grid-span-1'>
@@ -109,6 +110,34 @@ export default function profil() {
                                     <p className="mx-2 text-sm">No CP</p>  
                                 </div>
                             </div>
+                        </div>
+                    </div> */}
+                    {/* pelaksanaan */}
+                    <div className="w-full pb-16 p-7">
+                        <h2 className="my-2 text-xl font-bold">LKTI</h2>
+                        <div className='flex flex-col justify-around h-full'>
+                            <div className="flex flex-col h-full p-5 my-4 overflow-hidden bg-white bg-center bg-cover rounded-md lg:my-2">
+                                <div className='flex justify-between'>
+                                    <p className="text-[12px] text-black/60">Abstrak LKTI</p>
+                                    <p className="self-end text-[12px] text-black/60">Due in 8 days</p>    
+                                </div>
+                                <div className='flex items-center self-center justify-center w-4/5 p-10 my-2 border-2 border-dashed rounded-md cursor-pointer border-dcf-dark-brown h-3/5'>
+                                        <FileUpload size={50} strokeWidth={1} color={'#967E76'}/>
+                                        <p className='mx-2 text-sm text-dcf-dark-brown'>Klik di sini untuk mengunggah Abstrak LKTI</p>
+                                </div>
+                                <Button type="submit" className="self-center w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Upload Abstrak LKTI</Button>
+                            </div>    
+                            <div className="flex flex-col h-full p-5 my-4 overflow-hidden bg-white bg-center bg-cover rounded-md lg:my-2">
+                                <div className='flex justify-between'>
+                                    <p className="text-[12px] text-black/60">Fullpaper LKTI</p>
+                                    <p className="self-end text-[12px] text-black/60">Not started yet</p>    
+                                </div>
+                                <div className='flex items-center self-center justify-center w-4/5 p-10 my-2 border-2 border-dashed rounded-md cursor-pointer border-dcf-dark-brown h-3/5'>
+                                        <FileUpload size={50} strokeWidth={1} color={'#967E76'}/>
+                                        <p className='mx-2 text-sm text-dcf-dark-brown'>Klik di sini untuk mengunggah Fullpaper LKTI</p>
+                                </div>
+                                <Button type="submit" className="self-center w-fit bg-dcf-brown hover:bg-dcf-dark-brown/90">Upload FullPaper LKTI</Button>
+                            </div>   
                         </div>
                     </div>
                 </div>    
