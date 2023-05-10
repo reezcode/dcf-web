@@ -6,8 +6,12 @@ import { EmptyLayout } from '@/components/layout'
 import { TextInput } from '@mantine/core'
 import { At, FileUpload, School, Tex, UserCircle, BrandWhatsapp } from 'tabler-icons-react'
 import { Button } from '@mantine/core'
+import { useRouter } from 'next/router'
+import { useCookies } from 'react-cookie'
 
 export default function profil() {
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    const router = useRouter();
     return (
         <EmptyLayout pageTitle='Profil'>
             <div className="w-screen bg-center bg-cover h-fit lg:h-screen" style={{
@@ -18,13 +22,19 @@ export default function profil() {
                     <div className="w-full pb-16 h-fit lg:h-screen p-7">
                         <h2 className="my-2 text-xl font-bold">Profil</h2>
                         <div className='flex flex-col h-full grid-cols-2 grid-rows-6 gap-4 md:grid'>
-                            <div className='flex items-center w-full h-full px-1 py-2 m-auto bg-white rounded-md grid-span-1'>
+                            <div className='flex items-center w-full h-full px-2 py-4 m-auto bg-white rounded-md grid-span-1'>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12 mx-2 text-dcf-dark-brown">
                                     <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
                                 </svg>
                                 <div>
                                     <p className='text-sm font-medium'>Rozy Rodriques</p>
-                                    <p className='pr-5 text-sm'>kristiandavid644@gmai.com</p>    
+                                    <p className='pr-5 text-sm'>kristiandavid644@gmai.com</p>   
+                                    <form className='mt-2' onSubmit={() => {
+                                        router.push('/');
+                                        removeCookie('user');
+                                    }} >
+                                        <Button type="submit" className="bg-dcf-dark-brown">Log Out</Button>
+                                    </form>
                                 </div>
                             </div>
                                 <div className='row-span-5 row-start-2 p-5 bg-white rounded-md'>

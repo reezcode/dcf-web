@@ -1,11 +1,8 @@
 import { EmptyLayout } from "@/components/layout";
-import { Button } from "@mantine/core";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import Sidebar from "@/components/sidebar";
-import NavBar from "@/components/navbar";
 import NavDashboard from "@/configs/navigation_dashboard";
 import NavButton from "@/components/nav_button";
 
@@ -75,13 +72,7 @@ export default function index() {
           </div>
       </div>
         
-        {/* <p>Dashboard</p>
-        <form onSubmit={() => {
-          router.push('/');
-          removeCookie('user');
-        }} >
-        <Button type="submit" className="bg-dcf-dark-brown">Log Out</Button>
-        </form> */}
+        
     </EmptyLayout>
   )
 }
