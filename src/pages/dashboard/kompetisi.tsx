@@ -4,7 +4,7 @@ import NavDashboard from '@/configs/navigation_dashboard'
 import NavButton from '@/components/nav_button'
 import { EmptyLayout } from '@/components/layout'
 import { TextInput } from '@mantine/core'
-import { At, FileUpload, School, Tex, UserCircle, BrandWhatsapp } from 'tabler-icons-react'
+import { CircleCheck } from 'tabler-icons-react'
 import { Button } from '@mantine/core'
 import Buttons from '@/components/buttons'
 import { CircleX } from 'tabler-icons-react';
@@ -17,7 +17,8 @@ export default function profil() {
             }}>
                 <div className="flex w-full h-full mb-4 backdrop-blur-3xl">
                     <Sidebar/>
-                    <div className="w-full pb-16 h-fit lg:h-screen p-7">
+                    {/* pendaftaran */}
+                    {/* <div className="w-full pb-16 h-fit lg:h-screen p-7">
                         <h2 className="my-2 text-xl font-bold">Kompetisi Kimia</h2>
                         <div className='flex flex-col h-full grid-cols-2 grid-rows-6 gap-4 md:grid'>
                             <div className='flex items-center justify-center w-full h-full px-1 py-2 m-auto bg-white rounded-md grid-span-1'>
@@ -101,6 +102,54 @@ export default function profil() {
                                         color='green'/> 
                                     <p className="mx-2 text-sm">No CP</p>  
                                 </div>
+                            </div>
+                        </div>
+                    </div> */}
+                    {/* pelaksanaan */}
+                    <div className="w-full pb-16 p-7">
+                        <h2 className="my-2 text-xl font-bold">Kompetisi Kimia</h2>
+                        <div className='flex flex-col justify-around h-full'>
+                            <div className="flex flex-col h-full p-5 my-4 overflow-hidden bg-white bg-center bg-cover rounded-md lg:my-2">
+                                <div className='flex justify-between'>
+                                    <p className="text-[12px] text-black/60">Uji Coba </p>
+                                    <p className="self-end text-[12px] text-black/60">Due in 8 days</p>    
+                                </div>
+                                <div className='self-center my-5'>
+                                    <div className='flex items-center'>
+                                        <CircleCheck size={18} color='green' />
+                                        <p className='mx-2'>Uji Coba akan dilakukan pada tanggal </p>
+                                    </div>
+                                    <div className='flex items-center'>
+                                        <CircleCheck size={18} color='green' />
+                                        <p className='mx-2'>Pastikan anda sudah membaca tata cara pelaksanaan ujian</p>
+                                    </div>
+                                    <div className='flex items-center'>
+                                        <CircleCheck size={18} color='green' />
+                                        <p className='mx-2'>Apabila terdapat kesulitan atau error bisa hubungi kontak</p>
+                                    </div>
+                                </div>
+                                <Button type="submit" className="self-center w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Ikuti Uji Coba</Button>
+                            </div>    
+                            <div className="flex flex-col h-full p-5 my-4 overflow-hidden bg-white bg-center bg-cover rounded-md lg:my-2">
+                                <div className='flex justify-between'>
+                                    <p className="text-[12px] text-black/60">Ujian</p>
+                                    <p className="self-end text-[12px] text-black/60">Not started yet</p>    
+                                </div>
+                                <div className='self-center my-5'>
+                                    <div className='flex items-center'>
+                                        <CircleCheck size={18} color='green' />
+                                        <p className='mx-2'>Uji Coba akan dilakukan pada tanggal </p>
+                                    </div>
+                                    <div className='flex items-center'>
+                                        <CircleCheck size={18} color='green' />
+                                        <p className='mx-2'>Pastikan anda sudah membaca tata cara pelaksanaan ujian</p>
+                                    </div>
+                                    <div className='flex items-center'>
+                                        <CircleCheck size={18} color='green' />
+                                        <p className='mx-2'>Apabila terdapat kesulitan atau error bisa hubungi kontak</p>
+                                    </div>
+                                </div>
+                                <Button type="submit" className="self-center w-fit bg-dcf-brown hover:bg-dcf-dark-brown/90">Ikuti Ujian</Button>
                             </div>
                         </div>
                     </div>
