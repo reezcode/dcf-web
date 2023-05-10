@@ -13,9 +13,9 @@ export default function index() {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const router = useRouter();
   useEffect(()=> {
-        // if(!cookies.user) {
-        //     router.push('/404');
-        // }
+        if(!cookies.user) {
+            router.push('/404');
+        }
   }, [cookies]);
   return (
     <EmptyLayout pageTitle="Dashboard">
