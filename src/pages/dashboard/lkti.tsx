@@ -19,7 +19,7 @@ export default function profil() {
                     <Sidebar/>
                     {/* pendaftaran */}
                     {/* <div className="w-full pb-16 h-fit lg:h-screen p-7">
-                        <h2 className="my-2 text-xl font-bold">Kompetisi Kimia</h2>
+                        <h2 className="my-2 text-xl font-bold">LKTI</h2>
                         <div className='flex flex-col h-full grid-cols-2 grid-rows-6 gap-4 md:grid'>
                             <div className='flex items-center justify-center w-full h-full px-1 py-2 m-auto bg-white rounded-md grid-span-1'>
                                 <Button type="submit" className="mx-2 w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Buku Panduan</Button>    

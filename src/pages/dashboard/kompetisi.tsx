@@ -4,7 +4,7 @@ import NavDashboard from '@/configs/navigation_dashboard'
 import NavButton from '@/components/nav_button'
 import { EmptyLayout } from '@/components/layout'
 import { TextInput } from '@mantine/core'
-import { CircleCheck } from 'tabler-icons-react'
+import { At, BrandWhatsapp, CircleCheck, FileUpload, School, UserCircle } from 'tabler-icons-react'
 import { Button } from '@mantine/core'
 import Buttons from '@/components/buttons'
 import { CircleX } from 'tabler-icons-react';

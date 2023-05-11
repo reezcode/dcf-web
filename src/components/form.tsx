@@ -3,7 +3,7 @@ import { hasLength, isEmail, isNotEmpty, matchesField, useForm } from '@mantine/
 import { notifications } from '@mantine/notifications';
 import Link from "next/link";
 import { useRouter } from 'next/router';
-import { At, FileUpload, Fingerprint, School, UserCircle } from 'tabler-icons-react';
+import { At, CircleCheck, FileUpload, Fingerprint, School, UserCircle } from 'tabler-icons-react';
 import Image from "next/image";
 import { ChangeEvent, MouseEvent, useState } from "react";
 import axios from "axios";
@@ -92,7 +92,7 @@ function RegistrationForm(props: dataProps) {
             <div className="mt-2">
                 <Autocomplete
                     icon={<School size={20}/>}
-                    label="Asal Sekolah"
+                    label="Asal Instansi"
                     id='asal_sekolah'
                     required
                     withAsterisk={true}
@@ -140,10 +140,11 @@ function RegistrationForm(props: dataProps) {
     )
 }
 
-function uploadForm(){
+function UploadForm(){
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [ktm, setKtm] = useState(false);
 
   const onFileUploadChange = (e: ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
@@ -189,22 +190,32 @@ function uploadForm(){
       const formData = new FormData();
       formData.append("myImage", file);
       const { data } = await axios.post("/api/utils/upload", formData);
-      console.log(data);
+      notifications.show({
+        title: 'Sukses',
+        message: 'File Kartu Pelajar/Mahasiswa Berhasil Diupload!',
+        color: 'green',
+      })
+      setPreviewUrl(null);
+      setKtm(true);
     } catch (error: any) {
-      console.log(error.response?.data);
+      notifications.show({
+        title: 'Gagal',
+        message: error.response?.data,
+        color: 'red',
+    })
     }
     setUploading(false);
   };
 
   return (
     <form
-      className="w-full p-3 border border-gray-500 border-dashed"
+      className="w-full h-full p-3 mt-3 overflow-y-scroll border border-gray-500 border-dashed rounded-md scrollbar-hide"
       onSubmit={(e) => e.preventDefault()}
     >
-      <div className="flex flex-col md:flex-row gap-1.5 md:py-4">
+      <div className="flex flex-col gap-1.5 md:py-4">
         <div className="flex-grow">
           {previewUrl ? (
-            <div className="mx-auto w-80">
+            <div className="mx-auto w-fit">
               <Image
                 alt="file uploader preview"
                 objectFit="cover"
@@ -216,20 +227,7 @@ function uploadForm(){
             </div>
           ) : (
             <label className="flex flex-col items-center justify-center h-full py-3 transition-colors duration-150 cursor-pointer hover:text-gray-600">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-14 h-14"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
-                />
-              </svg>
+              <FileUpload size={40} color='grey' />
               <strong className="text-sm font-medium">Select an image</strong>
               <input
                 className="block w-0 h-0"
@@ -240,25 +238,19 @@ function uploadForm(){
             </label>
           )}
         </div>
-        <div className="flex mt-4 md:mt-0 md:flex-col justify-center gap-1.5">
-          <button
-            disabled={!previewUrl}
-            onClick={onCancelFile}
-            className="w-1/2 px-4 py-3 text-sm font-medium text-white transition-colors duration-300 bg-gray-700 rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
-          >
-            Cancel file
-          </button>
-          <button
-            disabled={!previewUrl}
-            onClick={onUploadFile}
-            className="w-1/2 px-4 py-3 text-sm font-medium text-white transition-colors duration-300 bg-gray-700 rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
-          >
-            Upload file
-          </button>
+        <div className="flex mt-4 md:flex-col justify-center gap-1.5 ">
+          <Button className='bg-dcf-brown/90 hover:bg-dcf-brown/80 active:bg-dcf-brown' disabled={!previewUrl} onClick={onCancelFile}>Cancel file</Button>
+          <Button className='bg-dcf-dark-brown/90 hover:bg-dcf-dark-brown/80 active:bg-dcf-dark-brown' disabled={!previewUrl} onClick={onUploadFile}>Upload file</Button>
+          {(ktm) ? (
+            <div className='flex flex-row items-start justify-center w-full py-4 mt-2 text-sm rounded-lg bg-green-100/80 h-fit m-font'>
+              <CircleCheck size={24} color='green' className='mr-2' />
+              <p>Kartu Pelajar/Mahasiswa sudah diupload</p>
+            </div>
+          ) : (<div></div>)}
         </div>
       </div>
     </form>
   );
 }
 
-export { RegistrationForm, uploadForm };
+export { RegistrationForm, UploadForm };

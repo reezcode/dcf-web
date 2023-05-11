@@ -11,7 +11,7 @@ export default function index() {
   const router = useRouter();
   useEffect(()=> {
         if(!cookies.user) {
-            router.push('/404');
+            router.push('/login');
         }
   }, [cookies]);
   return (

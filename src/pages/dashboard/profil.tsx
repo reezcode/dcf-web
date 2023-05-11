@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from '@/components/sidebar'
 import NavDashboard from '@/configs/navigation_dashboard'
 import NavButton from '@/components/nav_button'
@@ -8,10 +8,24 @@ import { At, FileUpload, School, Tex, UserCircle, BrandWhatsapp } from 'tabler-i
 import { Button } from '@mantine/core'
 import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
+import { UploadForm } from '@/components/form'
+
 
 export default function profil() {
+    const [edit, setEdit] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const router = useRouter();
+    useEffect(()=> {
+        if(!cookies.user) {
+            router.push('/login');
+        }
+  }, [cookies]);
+    const handleEdit = () => {
+        setEdit(true);
+        if(edit) {
+            console.log("edit");
+        }
+    }
     return (
         <EmptyLayout pageTitle='Profil'>
             <div className="w-screen bg-center bg-cover h-fit lg:h-screen" style={{
@@ -33,19 +47,20 @@ export default function profil() {
                                         router.push('/');
                                         removeCookie('user');
                                     }} >
-                                        <Button type="submit" className="bg-dcf-dark-brown">Log Out</Button>
+                                        <Button type="submit" className="bg-dcf-dark-brown hover:bg-dcf-dark-brown/80">Log Out</Button>
                                     </form>
                                 </div>
                             </div>
                                 <div className='row-span-5 row-start-2 p-5 bg-white rounded-md'>
                                     <p className="text-[12px] text-black/60">Profil Peserta</p>
+                                    <form onSubmit={()=>{}}>
                                     <div>
                                         <TextInput 
                                             icon={<UserCircle size={20}/>} 
                                             id="nama" 
                                             withAsterisk={true}
                                             label="Nama Lengkap"
-                                            variant='filled'
+                                            disabled={!edit}
                                             placeholder="Moestafa" 
                                         />
                                     </div>
@@ -57,7 +72,7 @@ export default function profil() {
                                             required
                                             withAsterisk={true}
                                             placeholder="SMA 3 Bekasi"
-                                            variant='filled'
+                                            disabled={!edit}
                                         />
                                     </div>
                                     <div>
@@ -66,7 +81,7 @@ export default function profil() {
                                             id="input-email" 
                                             withAsterisk={true}
                                             label="Email" 
-                                            variant='filled'
+                                            disabled={!edit}
                                             placeholder='Moestafa1976@gmail.com'
                                         />
                                     </div>
@@ -76,21 +91,21 @@ export default function profil() {
                                             id="telp" 
                                             withAsterisk={true}
                                             label="Whatsapp" 
-                                            variant='filled'
+                                            disabled={!edit}
                                             placeholder='08xxxx'
                                         />
                                     </div>
                                     <div className='w-1/3 mx-auto my-4'>
-                                        <Button type="submit" className="w-full bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Ubah Data</Button>    
+                                        <Button disabled={!edit} type="submit" className="w-full bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Update Data</Button>    
+                                    </div>
+                                    </form>
+                                    <div onClick={handleEdit} className={`flex items-center justify-center w-full -mt-2 text-sm text-dcf-dark-brown cursor-pointer ${(edit) ? 'hidden' : ''}`}>
+                                    <p>Edit Data</p> 
                                     </div>
                                 </div>
                             <div className='flex flex-col row-span-3 p-5 bg-white rounded-md'>
-                                <p className="text-[12px] text-black/60">Profil Peserta</p>
-                                <div className='flex items-center self-center w-4/5 p-10 my-2 border-2 border-dashed rounded-md cursor-pointer border-dcf-dark-brown h-3/5'>
-                                        <FileUpload size={50} strokeWidth={1} color={'#967E76'}/>
-                                        <p className='mx-2 text-sm text-dcf-dark-brown'>Klik di sini untuk mengunggah kartu identitas</p>
-                                </div>
-                                <Button type="submit" className="self-center w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Upload Kartu Identitas</Button> 
+                                <p className="text-[12px] text-black/60">Upload Kartu Pelajar/Mahasiswa</p>
+                                <UploadForm/>
                             </div>
                             <div className='row-span-3 overflow-auto bg-white bg-cover rounded-md' style={{backgroundImage: "url('../../img5.svg')",}}>
                                 <div className="w-full h-full bg-gradient-to-r from-dcf-light-brown from-50% to-dcf-light-brown/30 to-100% p-5 flex flex-col justify-end">
