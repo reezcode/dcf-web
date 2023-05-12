@@ -1,4 +1,4 @@
-import React from 'react'
+import {useState} from 'react'
 import Sidebar from '@/components/sidebar'
 import NavDashboard from '@/configs/navigation_dashboard'
 import NavButton from '@/components/nav_button'
@@ -10,7 +10,10 @@ import Buttons from '@/components/buttons'
 import { CircleX } from 'tabler-icons-react';
 import {motion} from "framer-motion"
 
+
 export default function profil() {
+    const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const role = ["Ketua", "Anggota 1", "Anggota 2"];
     return (
         <EmptyLayout pageTitle='LKTI'>
             <div className="w-screen bg-center bg-cover h-fit lg:h-screen" style={{
@@ -19,21 +22,33 @@ export default function profil() {
                 <div className="flex w-full h-full mb-4 backdrop-blur-3xl">
                     <Sidebar/>
                     {/* pendaftaran */}
-                    {/* <div className="w-full pb-16 h-fit lg:h-screen p-7">
-                        <h2 className="my-2 text-xl font-bold">LKTI</h2>
+                    <div className="w-full pb-16 h-fit lg:h-screen p-7">
+                        <h2 className="my-2 text-xl font-bold">Lomba Karya Tulis Ilmiah</h2>
                         <div className='flex flex-col h-full grid-cols-2 grid-rows-6 gap-4 md:grid'>
-                            <div className='flex items-center justify-center w-full h-full px-1 py-2 m-auto bg-white rounded-md grid-span-1'>
+                            <div className='flex items-center justify-center w-full h-full px-1 py-2 m-auto bg-white rounded-md shadow-lg grid-span-1 shadow-dcf-dark-brown/30'>
                                 <Button type="submit" className="mx-2 w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Buku Panduan</Button>    
                                 <Button type="submit" className="mx-2 w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Petunjuk Teknis</Button>    
                             </div>
-                            <div className='row-span-5 row-start-2 p-5 bg-white rounded-md'>
+                            <div className='row-span-5 row-start-2 p-5 bg-white rounded-md shadow-lg shadow-dcf-dark-brown/30'>
                                 <p className="text-[12px] text-black/60">Formulir Pendaftaran</p>
                                 <div>
-                                    <ul className='flex justify-around p-1 cursor-pointer'>
-                                        <li className='w-full p-1 px-4 text-sm text-center bg-dcf-light-brown/80 hover:bg-dcf-light-brown/60'>Ketua</li>
-                                        <li className='w-full p-1 px-4 text-sm text-center hover:bg-dcf-light-brown/60'>Anggota 1</li>
-                                        <li className='w-full p-1 px-4 text-sm text-center hover:bg-dcf-light-brown/60'>Anggota 2</li>
-                                    </ul>
+                                    <div className="flex justify-around space-x-3 text-sm border-b">
+                                        {role.map((tab, idx) => {
+                                        return (
+                                            <button
+                                            key={idx}
+                                            className={`py-2 w-full my-2 rounded-md transition-colors duration-300 
+                                            ${
+                                                idx === activeTabIndex
+                                                ? " bg-dcf-light-brown/80"
+                                                : " hover:border-dcf-brown hover:bg-dcf-light-brown/60"
+                                            }`}
+                                            onClick={() => setActiveTabIndex(idx)}>
+                                            {role[idx]}
+                                            </button>
+                                        );
+                                        })}
+                                    </div>
                                 </div>
                                 <div>
                                     <TextInput 
@@ -80,7 +95,7 @@ export default function profil() {
                                     <Button type="submit" className="w-full bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Konfirmasi Data</Button>    
                                 </div>
                             </div>
-                            <div className='flex flex-col row-span-4 p-5 bg-white rounded-md'>
+                            <div className='flex flex-col row-span-4 p-5 bg-white rounded-md shadow-lg shadow-dcf-dark-brown/30'>
                                 <p className="text-[12px] text-black/60">Abstrak LKTI</p>
                                 <div className='flex items-center self-center w-4/5 p-10 my-2 border-2 border-dashed rounded-md cursor-pointer border-dcf-dark-brown h-3/5'>
                                         <FileUpload size={50} strokeWidth={1} color={'#967E76'}/>
@@ -88,7 +103,7 @@ export default function profil() {
                                 </div>
                                 <Button type="submit" className="self-center w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Upload Abstrak LKTI</Button> 
                             </div>
-                            <div className='flex flex-col row-span-2 p-5 bg-white rounded-md'>
+                            <div className='flex flex-col row-span-2 p-5 bg-white rounded-md shadow-lg shadow-dcf-dark-brown/30'>
                                 <p className="text-[12px] text-black/60">Status Registrasi</p>
                                 <div className='flex items-center mb-2'>
                                     <CircleX 
@@ -105,9 +120,9 @@ export default function profil() {
                                 </div>
                             </div>
                         </div>
-                    </div> */}
+                    </div>
                     {/* pelaksanaan */}
-                    <div className="w-full pb-16 p-7">
+                    {/* <div className="w-full pb-16 h-fit lg:h-screen p-7">
                         <h2 className="my-2 text-xl font-bold">Lomba Karya Tulis Ilmiah</h2>
                         <div className='flex flex-col justify-around order-1 grid-cols-2 grid-rows-6 gap-4 h-fit lg:h-full lg:grid'>
                             <div className="flex flex-col h-full row-span-3 row-start-1 p-5 my-4 overflow-hidden bg-white bg-center bg-cover rounded-md shadow-lg lg:my-2 shadow-dcf-dark-brown/30">
@@ -147,14 +162,7 @@ export default function profil() {
                                 
                             </div>
                             <div className='w-full h-full row-span-2 p-5 bg-white rounded-md shadow-lg lg:px-5 lg:py-1 shadow-dcf-dark-brown/30 column-start-2'>
-                                <p className="text-[12px] text-black/60">Status Pembayaran</p>
-                                    <div className='flex items-center mb-2'>
-                                        <CircleX 
-                                            size={16}
-                                            color='red'/> 
-                                        <p className="mx-2 text-sm">Belum Terverifikasi</p>  
-                                    </div>
-                                    <p className="text-[12px] text-black/60">Status Registrasi</p>
+                                <p className="text-[12px] text-black/60">Status Registrasi</p>
                                     <div className='flex items-center mb-2'>
                                         <CircleX 
                                             size={16}
@@ -170,7 +178,7 @@ export default function profil() {
                                     </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>    
                 <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 lg:hidden">
                     <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium" >
