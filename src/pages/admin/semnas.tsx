@@ -4,43 +4,36 @@ import { Table } from '@mantine/core'
 import Buttons from '@/components/buttons'
 import { Button } from '@mantine/core'
 import { EmptyLayout } from '@/components/layout'
-import NavButton from '@/components/nav_button'
 import AdminNavDashboard from '@/configs/Admin_Nav'
+import NavButton from '@/components/nav_button'
 
-export default function kompetisi() {
+export default function semnas() {
     return (
-        <EmptyLayout pageTitle='Kompetisi Kimia'>
+        <EmptyLayout pageTitle="Seminar Nasional">
             <div className="w-screen min-h-screen bg-center bg-cover h-fit lg:h-screen" style={{
                 backgroundImage: "url('../../bgform.svg')",
             }}>
                 <div className="flex w-full h-full min-h-screen mb-4 backdrop-blur-3xl">
                     <SidebarAdmin/>
                     <div className='w-full h-full p-10 '>
-                        <p className='mx-4 font-bold'>Peserta Kompetisi Kimia DCF 2023</p>
+                        <p className='mx-4 font-bold'>Peserta Seminar Nasional DCF 2023</p>
                         <Table withColumnBorders highlightOnHover className='text-center bg-white rounded-md'>
                             <thead>
                                 <tr>
                                 <th>id</th>
                                 <th>Nama </th>
+                                <th>Email</th>
                                 <th>Asal Instansi</th>
-                                <th>Nilai Uji Coba</th>
-                                <th>Nilai Ujian</th>
-                                <th>Link Bukti Bayar</th>
-                                <th>Action</th>
+                                <th>Whatsapp</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>1</td>
                                     <td>mustop</td>
+                                    <td>mustop@gmialc.om</td>
                                     <td>SMA 1 Bekasi</td>
-                                    <td>50</td>
-                                    <td>1020</td>
-                                    <td><a href="/">Link</a></td>
-                                    <td>
-                                        <Button type="submit" className="self-center m-2 w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Verifikasi</Button>
-                                        <Button type="submit" className="self-center m-2 w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Hapus</Button>
-                                    </td>
+                                    <td>09213131</td>
                                 </tr>
                             </tbody>
                             
@@ -56,6 +49,7 @@ export default function kompetisi() {
                     })}
                 </div>
             </div>
+
         </EmptyLayout>
-    )
+    );
 }
