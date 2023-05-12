@@ -28,7 +28,7 @@ export default function profil() {
     }
     return (
         <EmptyLayout pageTitle='Profil'>
-            <div className="w-screen bg-center bg-cover h-fit lg:h-screen" style={{
+            <div className="bg-center bg-cover lg:w-screen h-fit lg:h-screen" style={{
                 backgroundImage: "url('../../bgform.svg')",
             }}>
                 <div className="flex w-full h-full mb-4 backdrop-blur-3xl">
@@ -36,22 +36,23 @@ export default function profil() {
                     <div className="w-full pb-16 h-fit lg:h-screen p-7">
                         <h2 className="my-2 text-xl font-bold">Profil</h2>
                         <div className='flex flex-col h-full grid-cols-2 grid-rows-6 gap-4 md:grid'>
-                            <div className='flex items-center w-full h-full px-2 py-4 m-auto bg-white rounded-md grid-span-1'>
+                            <div className='flex items-center w-full h-full px-2 py-4 m-auto bg-white rounded-md shadow-lg grid-span-1 shadow-dcf-dark-brown/30'>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12 mx-2 text-dcf-dark-brown">
                                     <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
                                 </svg>
                                 <div>
                                     <p className='text-sm font-medium'>Rozy Rodriques</p>
                                     <p className='pr-5 text-sm'>kristiandavid644@gmai.com</p>   
-                                    <form className='mt-2' onSubmit={() => {
-                                        router.push('/');
+                                    
+                                </div>
+                                <form className='mx-5 mt-2' onSubmit={() => {
+                                        // router.push('/');
                                         removeCookie('user');
                                     }} >
                                         <Button type="submit" className="bg-dcf-dark-brown hover:bg-dcf-dark-brown/80">Log Out</Button>
-                                    </form>
-                                </div>
+                                </form>
                             </div>
-                                <div className='row-span-5 row-start-2 p-5 bg-white rounded-md'>
+                                <div className='row-span-5 row-start-2 p-5 bg-white rounded-md shadow-lg shadow-dcf-dark-brown/30'>
                                     <p className="text-[12px] text-black/60">Profil Peserta</p>
                                     <form onSubmit={()=>{}}>
                                     <div>
@@ -99,15 +100,15 @@ export default function profil() {
                                         <Button disabled={!edit} type="submit" className="w-full bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Update Data</Button>    
                                     </div>
                                     </form>
-                                    <div onClick={handleEdit} className={`flex items-center justify-center w-full -mt-2 text-sm text-dcf-dark-brown cursor-pointer ${(edit) ? 'hidden' : ''}`}>
+                                    {/* <div onClick={handleEdit} className={`flex items-center justify-center w-full -mt-2 text-sm text-dcf-dark-brown cursor-pointer ${(edit) ? 'hidden' : ''}`}>
                                     <p>Edit Data</p> 
-                                    </div>
+                                    </div> */}
                                 </div>
-                            <div className='flex flex-col row-span-3 p-5 bg-white rounded-md'>
+                            <div className='flex flex-col row-span-3 p-5 bg-white rounded-md shadow-lg shadow-dcf-dark-brown/30'>
                                 <p className="text-[12px] text-black/60">Upload Kartu Pelajar/Mahasiswa</p>
                                 <UploadForm/>
                             </div>
-                            <div className='row-span-3 overflow-auto bg-white bg-cover rounded-md' style={{backgroundImage: "url('../../img5.svg')",}}>
+                            <div className='row-span-3 overflow-auto bg-white bg-cover rounded-md shadow-lg shadow-dcf-dark-brown/30' style={{backgroundImage: "url('../../img5.svg')",}}>
                                 <div className="w-full h-full bg-gradient-to-r from-dcf-light-brown from-50% to-dcf-light-brown/30 to-100% p-5 flex flex-col justify-end">
                                     <p className="text-lg font-bold">Diponegoro Chemistry Fair</p>
                                     <p className="w-3/5">The Role of Green Chemistry to Maintain the Sustainable Energy</p>  

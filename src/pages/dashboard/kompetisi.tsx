@@ -12,13 +12,13 @@ import { CircleX } from 'tabler-icons-react';
 export default function profil() {
     return (
         <EmptyLayout pageTitle='Kompetisi'>
-            <div className="w-screen bg-center bg-cover h-fit lg:h-screen" style={{
+            <div className="bg-center bg-cover lg:w-screen h-fit lg:h-screen" style={{
                 backgroundImage: "url('../../bgform.svg')",
             }}>
                 <div className="flex w-full h-full mb-4 backdrop-blur-3xl">
                     <Sidebar/>
                     {/* pendaftaran */}
-                    {/* <div className="w-full pb-16 h-fit lg:h-screen p-7">
+                    <div className="w-full pb-16 h-fit lg:h-screen p-7">
                         <h2 className="my-2 text-xl font-bold">Kompetisi Kimia</h2>
                         <div className='flex flex-col h-full grid-cols-2 grid-rows-6 gap-4 md:grid '>
                             <div className='flex items-center justify-center w-full h-full px-1 py-2 m-auto bg-white rounded-md shadow-lg grid-span-1 shadow-dcf-dark-brown/30'>
@@ -97,11 +97,11 @@ export default function profil() {
                                 </div>
                             </div>
                         </div>
-                    </div> */}
+                    </div>
                     {/* pelaksanaan */}
-                    <div className="w-full pb-16 h-fit lg:h-screen p-7">
+                    {/* <div className="w-full pb-16 h-fit lg:h-screen p-7">
                         <h2 className="my-2 text-xl font-bold">Kompetisi Kimia</h2>
-                        <div className='flex flex-col w-full h-full grid-cols-2 grid-rows-6 gap-4 md:grid'>
+                        <div className='flex flex-col w-full h-full grid-cols-2 grid-rows-6 gap-4 lg:grid'>
                             <div className="flex flex-col h-full row-span-3 p-5 bg-white bg-center rounded-md shadow-lg rows-span-3 shadow-dcf-dark-brown/3">
                                 <div className='flex justify-between'>
                                     <p className="text-[12px] text-black/60">Uji Coba </p>
@@ -144,7 +144,7 @@ export default function profil() {
                                 </div>
                                 <Button type="submit" className="self-center w-fit bg-dcf-brown hover:bg-dcf-dark-brown/90">Ikuti Ujian</Button>
                             </div>
-                            <div className='w-full row-span-4 px-5 py-2 bg-white rounded-md shadow-lg h-fit shadow-dcf-dark-brown/30'>
+                            <div className='w-full row-span-4 p-5 bg-white rounded-md shadow-lg h-fit shadow-dcf-dark-brown/30 lg:p-2 xl:p-5'>
                                 <h2 className='w-full p-2 font-bold text-center'>Syarat dan Ketentuan</h2>
                                 <ul>
                                     <li className='flex text-sm'><CircleCheck className="mt-1 mr-2 shrink-0" size={16} color='green'/><p> Siswa SMA/SMK/sederajat yang masih aktif baik kelas X/XI/XII pada tahun ajaran 2023/2024.</p></li>
@@ -176,7 +176,7 @@ export default function profil() {
                                 <Button type="submit" className="self-center mx-2 w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Grup Whatsapp</Button>
                                 </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>    
                 <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 lg:hidden">
                     <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium" >

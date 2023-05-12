@@ -12,16 +12,16 @@ import { EmptyLayout } from '@/components/layout'
 export default function semnas() {
     return (
         <EmptyLayout pageTitle='Seminar Nasional'>
-            <div className="w-screen bg-center bg-cover h-fit lg:h-screen" style={{
+            <div className="bg-center bg-cover lg:w-screen h-fit lg:h-screen" style={{
                 backgroundImage: "url('../../bgform.svg')",
             }}>
                 <div className="flex w-full h-full mb-4 backdrop-blur-3xl">
                     <Sidebar/>
                     <div className="w-full pb-16 p-7">
                         <h2 className="my-2 text-xl font-bold">Seminar Nasional</h2>
-                        <p className="py-2 pl-2 pr-10 my-4 text-sm font-semibold bg-white rounded-full shadow-lg lg:text-base w-fit h-fit shadow-dcf-dark-brown/30">The Role of Green Chemistry to Maintain the Sustainable Energy</p>
-                        <div className='flex'>
-                            <div className='w-full px-5 py-3 rounded-md h-5/6 bg-white/80'>
+                        <p className="py-2 pl-2 pr-10 my-4 text-sm font-semibold bg-white rounded-md shadow-lg lg:text-base w-fit h-fit shadow-dcf-dark-brown/30">The Role of Green Chemistry to Maintain the Sustainable Energy</p>
+                        <div className='flex '>
+                            <div className='w-full px-5 py-3 rounded-md shadow-lg h-5/6 bg-white/80 shadow-dcf-dark-brown/30'>
                                 <div>
                                     <TextInput 
                                         icon={<UserCircle size={20}/>} 
