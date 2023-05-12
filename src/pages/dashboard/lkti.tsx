@@ -22,7 +22,7 @@ export default function profil() {
                 <div className="flex w-full h-full mb-4 backdrop-blur-3xl">
                     <Sidebar/>
                     {/* pendaftaran */}
-                    <div className="w-full pb-16 h-fit lg:h-screen p-7">
+                    {/* <div className="w-full pb-16 h-fit lg:h-screen p-7">
                         <h2 className="my-2 text-xl font-bold">Lomba Karya Tulis Ilmiah</h2>
                         <div className='flex flex-col h-full grid-cols-2 grid-rows-6 gap-4 md:grid'>
                             <div className='flex items-center justify-center w-full h-full px-1 py-2 m-auto bg-white rounded-md shadow-lg grid-span-1 shadow-dcf-dark-brown/30'>
@@ -120,12 +120,12 @@ export default function profil() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* pelaksanaan */}
-                    {/* <div className="w-full pb-16 h-fit lg:h-screen p-7">
+                    <div className="w-full pb-16 h-fit lg:h-screen p-7">
                         <h2 className="my-2 text-xl font-bold">Lomba Karya Tulis Ilmiah</h2>
                         <div className='flex flex-col justify-around order-1 grid-cols-2 grid-rows-6 gap-4 h-fit lg:h-full lg:grid'>
-                            <div className="flex flex-col h-full row-span-3 row-start-1 p-5 my-4 overflow-hidden bg-white bg-center bg-cover rounded-md shadow-lg lg:my-2 shadow-dcf-dark-brown/30">
+                            <div className="flex flex-col h-full row-span-3 row-start-1 p-5 overflow-hidden bg-white bg-center bg-cover rounded-md shadow-lg shadow-dcf-dark-brown/30">
                                 <div className='flex justify-between'>
                                     <p className="text-[12px] text-black/60">Bukti Pembayaran</p>
                                     <p className="self-end text-[12px] text-black/60">Due in 8 days</p>    
@@ -136,7 +136,7 @@ export default function profil() {
                                 </div>
                                 <Button type="submit" className="self-center w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Upload Bukti Pembayaran</Button>
                             </div>    
-                            <div className="flex flex-col h-full row-span-3 row-start-4 p-5 my-4 overflow-hidden bg-white bg-center bg-cover rounded-md shadow-lg lg:my-2 shadow-dcf-dark-brown/30">
+                            <div className="flex flex-col h-full row-span-3 row-start-4 p-5 overflow-hidden bg-white bg-center bg-cover rounded-md shadow-lg shadow-dcf-dark-brown/30">
                                 <div className='flex justify-between'>
                                     <p className="text-[12px] text-black/60">Fullpaper LKTI</p>
                                     <p className="self-end text-[12px] text-black/60">Due in 8 days</p>    
@@ -161,24 +161,25 @@ export default function profil() {
                                 </div>
                                 
                             </div>
-                            <div className='w-full h-full row-span-2 p-5 bg-white rounded-md shadow-lg lg:px-5 lg:py-1 shadow-dcf-dark-brown/30 column-start-2'>
+                            <div className='flex flex-col w-full h-full row-span-2 p-5 bg-white rounded-md shadow-lg lg:px-5 lg:py-1 shadow-dcf-dark-brown/30 column-start-2'>
                                 <p className="text-[12px] text-black/60">Status Registrasi</p>
-                                    <div className='flex items-center mb-2'>
-                                        <CircleX 
-                                            size={16}
-                                            color='red'/> 
-                                        <p className="mx-2 text-sm">Belum Terverifikasi</p>  
-                                    </div>
-                                    <p className="text-[12px] text-black/60">Kontak</p>
-                                    <div className='flex items-center mb-2'>
-                                        <BrandWhatsapp 
-                                            size={16}
-                                            color='green'/> 
-                                        <p className="mx-2 text-sm">No CP</p>  
-                                    </div>
+                                <div className='flex items-center mb-2'>
+                                    <CircleX 
+                                        size={16}
+                                        color='red'/> 
+                                    <p className="mx-2 text-sm">Belum Terverifikasi</p>  
+                                </div>
+                                <p className="text-[12px] text-black/60">Kontak</p>
+                                <div className='flex items-center mb-2'>
+                                    <BrandWhatsapp 
+                                        size={16}
+                                        color='green'/> 
+                                    <p className="mx-2 text-sm">No CP</p>  
+                                </div>
+                                <Button type="submit" className="self-center mx-2 w-fit bg-dcf-brown hover:bg-dcf-dark-brown/90">Grup Whatsapp</Button>
                             </div>
                         </div>
-                    </div> */}
+                    </div>
                 </div>    
                 <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 lg:hidden">
                     <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium" >
