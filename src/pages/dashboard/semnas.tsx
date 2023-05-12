@@ -19,7 +19,7 @@ export default function semnas() {
                     <Sidebar/>
                     <div className="w-full pb-16 p-7">
                         <h2 className="my-2 text-xl font-bold">Seminar Nasional</h2>
-                        <p className="py-2 pl-2 pr-10 my-4 text-sm font-semibold bg-white rounded-full lg:text-base w-fit">The Role of Green Chemistry to Maintain the Sustainable Energy</p>
+                        <p className="py-2 pl-2 pr-10 my-4 text-sm font-semibold bg-white rounded-full shadow-lg lg:text-base w-fit h-fit shadow-dcf-dark-brown/30">The Role of Green Chemistry to Maintain the Sustainable Energy</p>
                         <div className='flex'>
                             <div className='w-full px-5 py-3 rounded-md h-5/6 bg-white/80'>
                                 <div>
@@ -62,11 +62,17 @@ export default function semnas() {
                                         placeholder='Masukan Nomor Whatsapp'
                                     />
                                 </div>
-                                <div className='w-1/3 mx-auto my-4'>
+                                <div className='w-1/3 mx-auto my-3'>
                                     <Button type="submit" className="w-full bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Daftar</Button>    
                                 </div>
+                                {/* Setelah Pembayaran */}
+                                {/* <div className='flex flex-col'>
+                                    <p className='text-lg font-bold text-center'>Terima Kasih Sudah Mendaftar</p>
+                                    <p className='text-center'>Silakan masuk ke grup Whatsapp untuk memudahkan komunikasi!</p>
+                                    <Button type="submit" className="self-center my-2 w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90">Grup Whatsapp</Button>
+                                </div> */}
                             </div>
-                                <div className='hidden w-1/2 p-10 bg-no-repeat bg-contain md:block' style={{backgroundImage: "url('../../mascot2.svg')",}}>
+                            <div className='hidden w-1/2 p-10 bg-no-repeat bg-contain md:block' style={{backgroundImage: "url('../../mascot2.svg')",}}>
                             </div>
                         </div>
                     </div>
