@@ -9,6 +9,7 @@ import { Button } from '@mantine/core'
 import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
 import { UploadForm } from '@/components/form'
+import AdminNavDashboard from '@/configs/Admin_Nav'
 
 
 export default function profil() {
@@ -125,7 +126,13 @@ export default function profil() {
                     </div>
                 </div>
             </div>
-            
+            <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 lg:hidden">
+                <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
+                    {AdminNavDashboard.map((data) => {
+                        return <NavButton data={data} key={data.title}/>
+                    })}
+                </div>
+            </div>
         </EmptyLayout>
     )
 }
