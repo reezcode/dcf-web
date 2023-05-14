@@ -1,23 +1,17 @@
-import { useState } from "react";
+import { EmptyLayout } from "@/components/layout";
+import NavButton from "@/components/nav_button";
 import Sidebar from "@/components/sidebar";
 import NavDashboard from "@/configs/navigation_dashboard";
-import NavButton from "@/components/nav_button";
-import { EmptyLayout } from "@/components/layout";
-import { TextInput } from "@mantine/core";
+import { Button, TextInput } from "@mantine/core";
+import { useState } from "react";
 import {
   At,
+  BrandWhatsapp,
+  CircleX,
   FileUpload,
   School,
-  Tex,
   UserCircle,
-  BrandWhatsapp,
-  Checklist,
-  CircleCheck,
 } from "tabler-icons-react";
-import { Button } from "@mantine/core";
-import Buttons from "@/components/buttons";
-import { CircleX } from "tabler-icons-react";
-import { motion } from "framer-motion";
 
 export default function profil() {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
