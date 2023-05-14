@@ -55,7 +55,7 @@ function CardTestimoni(props: TestimoniProps){
     const [showModal, setShowModal] = useState(false);
     return (
         <>
-        <div onClick={() => setShowModal(!showModal)}  className="flex-none w-11/12 mr-10 shadow-lg h-fit m-font rounded-xl bg-dcf-light-brown lg:w-[400px] lg:h-[560px] ">
+        <div  className="flex-none w-11/12 mr-10 shadow-lg h-fit m-font rounded-xl bg-dcf-light-brown lg:w-[400px] lg:h-[560px] ">
             <div className="flex flex-col items-center justify-center p-10">
                 <Image src={''+data.imgUrl} width={75} height={75} alt="photo" className="rounded-full"/>
                 <h3 className="mt-3 font-bold text-center">{data.name}</h3>
@@ -63,7 +63,7 @@ function CardTestimoni(props: TestimoniProps){
                 <p className="mb-3">{data.work}</p>
                 <Link href={''} className="bg-dcf-dark-brown text-center font-semibold m-font h-[35px] rounded-full px-5 py-1 text-white mx-2 my-1 hover:bg-dcf-dark-brown/80 hover:font-semibold text-base ease-in-out duration-300">{data.title}</Link>
                 <div className="justify-between mt-5 text-sm text-justify">
-                    <p>{data.peek} <span className="font-bold text-dcf-dark-brown">{data.more}</span></p>                    
+                    <p>{data.peek} <span className="font-bold cursor-pointer text-dcf-dark-brown" onClick={() => setShowModal(!showModal)}>{data.more}</span></p>                    
                 </div>
             </div>
         </div>
