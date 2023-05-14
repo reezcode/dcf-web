@@ -103,7 +103,7 @@ function LoginForm() {
             {...form.getInputProps("password")}
           />
           <Link
-            href={"/resetpassword"}
+            href={"/forgot"}
             className="text-[12px] m-font font-semibold text-dcf-dark-brown mt-5"
           >
             Lupa Password?
