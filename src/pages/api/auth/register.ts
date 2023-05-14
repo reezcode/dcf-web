@@ -8,7 +8,7 @@ export default async function registerHandler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { nama, email, password, asal_sekolah, event } = req.body;
+    const { nama, email, password, asal_sekolah } = req.body;
     const existingUser = await prisma.user.findUnique({
       where: {
         email,
@@ -27,7 +27,11 @@ export default async function registerHandler(
         nama,
         asal_sekolah,
         password: hashedPassword,
-        event,
+        no_hp: "",
+        id_lomba: 0,
+        ktm: "",
+        reset_token: "",
+        reset_token_date: new Date(),
       },
     });
 

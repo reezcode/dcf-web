@@ -1,89 +1,68 @@
 import { EmptyLayout } from "@/components/layout";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
-import { hasLength, isEmail, useForm } from "@mantine/form";
+import { hasLength, isEmail, matchesField, useForm } from "@mantine/form";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { At, Fingerprint } from "tabler-icons-react";
+import { At, Fingerprint, Hash } from "tabler-icons-react";
 import useUser from "./api/auth/redirect";
 import { notifications } from "@mantine/notifications";
 
-interface dataLogin {
+interface dataReset {
   email: string;
-  password: string;
 }
 
-function LoginForm() {
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+function ForgotForm() {
   const router = useRouter();
-  const { mutateUser } = useUser({
-    redirectTo: "/dashboard",
-    redirectIfFound: true,
+  const form = useForm({
+    initialValues: {
+      email: "",
+    },
+    validate: {
+      email: isEmail("Invalid email"),
+    },
   });
 
-  const [errorMsg, setErrorMsg] = useState("");
-
-  async function handleSubmit(values: dataLogin) {
+  async function handleForgot(values: dataReset) {
     const body = {
       email: values.email,
-      password: values.password,
     };
-    const response = await fetch("/api/auth/login", {
+    const response = await fetch("/api/auth/forgot", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    try {
-      mutateUser(response);
-    } catch (error) {
-      setErrorMsg("Error");
-    }
     if (response.ok) {
-      setCookie(
-        "user",
-        {
-          email: values.email,
-          isLoggedIn: true,
-        },
-        {
-          path: "/",
-          maxAge: 86400,
-        }
-      );
-      router.replace("/dashboard");
+      router.push("/check?email=" + values.email);
+      notifications.show({
+        title: "Berhasil",
+        message: "Token telah dikirimkan ke email anda",
+        color: "green",
+      });
     } else {
       notifications.show({
-        title: "Login Gagal",
-        message: "Email atau password salah",
+        title: "Gagal",
+        message: "Email tidak terdaftar",
         color: "red",
       });
     }
   }
-
-  const form = useForm({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validate: {
-      email: isEmail("Invalid email"),
-      password: hasLength({ min: 8 }, "Panjang password minimal 8 karakter"),
-    },
-  });
-
   return (
     <form
       onSubmit={form.onSubmit((values) => {
-        const dataUp: dataLogin = {
+        const dataUp: dataReset = {
           email: values.email,
-          password: values.password,
         };
-        handleSubmit(dataUp);
+        handleForgot(dataUp);
       })}
     >
       <div className="mt-5">
+        <p className="text-sm text-center">
+          Untuk reset password anda harus verifikasi token yang akan dikirimkan
+          ke alamat email anda
+        </p>
         <div>
           <TextInput
             icon={<At size={20} />}
@@ -94,27 +73,12 @@ function LoginForm() {
             {...form.getInputProps("email")}
           />
         </div>
-        <div className="mt-2">
-          <PasswordInput
-            icon={<Fingerprint size={20} />}
-            placeholder="********"
-            label="Password"
-            required
-            {...form.getInputProps("password")}
-          />
-          <Link
-            href={"/resetpassword"}
-            className="text-[12px] m-font font-semibold text-dcf-dark-brown mt-5"
-          >
-            Lupa Password?
-          </Link>
-        </div>
         <div className="flex flex-col items-center justify-center mt-5">
           <Button
             type="submit"
             className="w-full bg-dcf-dark-brown hover:bg-dcf-dark-brown/90"
           >
-            Login
+            Kirim Token
           </Button>
           <p className="text-[12px] text-slate-700 mt-2 text-center">
             Belum memiliki akun?
@@ -132,7 +96,7 @@ function LoginForm() {
   );
 }
 
-export default function login() {
+export default function forgot() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const router = useRouter();
   useEffect(() => {
@@ -140,8 +104,9 @@ export default function login() {
       router.push("/dashboard");
     }
   }, [cookies]);
+
   return (
-    <EmptyLayout pageTitle="Login">
+    <EmptyLayout pageTitle="Reset Password">
       <div
         className="w-screen h-screen bg-center bg-cover"
         style={{
@@ -157,9 +122,9 @@ export default function login() {
                 height={100}
                 alt="Logo DCF"
               />
-              <h1 className="mt-2 text-lg font-bold m-font">Welcome Back!</h1>
+              <h1 className="mt-2 text-lg font-bold m-font">Reset Password</h1>
             </div>
-            <LoginForm />
+            <ForgotForm />
           </div>
         </div>
       </div>

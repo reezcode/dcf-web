@@ -18,14 +18,14 @@ export default async function forgotHandler(
       return res.status(409).json({ message: "Email belum terdaftar" });
     }
 
-    const token = await hashPassword(generateRandom(12));
+    const token = "BOBO"; //await hashPassword(generateRandom(12));
     const updateToken = await prisma.user.update({
       where: {
         email: email,
       },
       data: {
         reset_token: token,
-        date_reset_token: new Date(),
+        reset_token_date: new Date(),
       },
     });
 
