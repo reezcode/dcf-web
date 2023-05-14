@@ -18,6 +18,7 @@ interface dataNewPassword {
 
 function NewForm() {
   const router = useRouter();
+  const { asPath, pathname } = router;
   const form = useForm({
     initialValues: {
       newPassword: "",
@@ -28,6 +29,9 @@ function NewForm() {
       confirmPassword: matchesField("newPassword", "Passwords tidak sama"),
     },
   });
+
+  const email = asPath.substring(asPath.indexOf("=") + 1, asPath.indexOf("&"));
+  const token = asPath.substring(asPath.lastIndexOf("=") + 1);
 
   // useeffect ngecek klo dia tokennya null balik kelogin
   // kalo dia tokennya experied dia balik ke login
@@ -52,7 +56,7 @@ function NewForm() {
     <form
       onSubmit={form.onSubmit((values) => {
         const dataPass: dataNewPassword = {
-          email: "",
+          email: email,
           newPassword: values.newPassword,
           confirmPassword: values.confirmPassword,
         };
@@ -60,7 +64,7 @@ function NewForm() {
       })}
     >
       <div className="mt-5">
-        <p>Masukan password baru</p>
+        <p className="text-sm text-center">Masukan password baru</p>
         <div>
           <PasswordInput
             icon={<Fingerprint size={20} />}

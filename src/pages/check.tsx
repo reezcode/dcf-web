@@ -22,7 +22,7 @@ function TokenForm() {
       token: "",
     },
     validate: {
-      token: hasLength({ min: 1 }, "Panjang token minimal 12 karakter"),
+      token: hasLength({ min: 12 }, "Panjang token minimal 12 karakter"),
     },
   });
 
@@ -57,7 +57,9 @@ function TokenForm() {
       })}
     >
       <div className="mt-5">
-        <p>Masukan token yang sudah dikirimkan ke email anda</p>
+        <p className="text-sm text-center">
+          Masukan token yang sudah dikirimkan ke email anda
+        </p>
         <div>
           <TextInput
             icon={<Hash size={20} />}
