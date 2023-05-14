@@ -28,8 +28,43 @@ export default async function updateHandler(
         },
       });
       return res.status(201).json({ message: "Password berhasil diubah" });
+    } else if (type === "regKompetisi") {
+      const { email, bukti_pembayaran } = req.body;
+      const user = await prisma.user.findUnique({
+        where: {
+          email,
+        },
+      });
+      const { nama, asal_instansi, nilai_ujicoba, nilai_ujian, status } = {
+        nama: user?.nama!,
+        asal_instansi: user?.asal_sekolah!,
+        nilai_ujian: 0,
+        nilai_ujicoba: 0,
+        status: "NO",
+      };
+      const kompetisi = await prisma.kompetisi.create({
+        data: {
+          nama,
+          email,
+          asal_instansi,
+          nilai_ujian,
+          nilai_ujicoba,
+          bukti_pembayaran,
+          status,
+        },
+      });
+      const updateData = await prisma.user.update({
+        where: {
+          email,
+        },
+        data: {
+          id_lomba: kompetisi.id,
+        },
+      });
+      return res
+        .status(201)
+        .json({ message: "Pendafataran Kompetisi Berhasil" });
     }
-
     return res.status(405).end();
   }
 }

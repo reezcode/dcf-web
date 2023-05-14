@@ -21,6 +21,7 @@ model lkti {
   link_fullpaper  String
   nilai_abstrak   Int
   nilai_fullpaper Int
+  bukti_pembayaran  String
   status          String
 }
 
@@ -31,6 +32,8 @@ model kompetisi {
   asal_instansi String
   nilai_ujicoba Int
   nilai_ujian   Int
+  bukti_pembayaran  String
+  status  String
 }
 
 model semnas {
