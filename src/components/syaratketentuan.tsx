@@ -7,6 +7,7 @@ type SKData = {
     title: string;
     type: string;
     skOrBenefit?: Array<string>;
+    img: string;
     button?: {
         text: string;
         link: Url;
@@ -20,7 +21,7 @@ type SKProps = {
 }
 
 export default function SyaratKetentuan({data}:SKProps) {
-    const { title, type, skOrBenefit, button, harga, regist } = data;
+    const { title, type, skOrBenefit, button, harga, regist, img } = data;
     return (
         <div className="mb-12" id="sk">
             <h1 className="p-3 text-2xl font-bold text-center sm:text-4xl">{title}</h1>
@@ -28,7 +29,7 @@ export default function SyaratKetentuan({data}:SKProps) {
                 {title} dalam mengikuti {type} DCF 2023 adalah sebagai berikut           
             </p>
             <div className="flex flex-col items-center my-5 md:justify-center md:h-fit lg:flex-row">
-                <div className="w-11/12 lg:w-[400px] h-[300px] lg:h-[400px] overflow-hidden bg-dcf-blue rounded-[20px] p-3 mx-5 shadow-xl shadow-dcf-light-brown/50 hover:shadow-dcf-light-brown/80 duration-300 hover:scale-105 cursor-pointer">
+                <div className="w-11/12 lg:w-[400px] h-[300px] lg:h-[400px] overflow-hidden bg-dcf-blue rounded-[20px] p-3 mx-5 shadow-xl shadow-dcf-light-brown/50 hover:shadow-dcf-light-brown/80 duration-300 hover:scale-105 cursor-pointer bg-cover" style={{backgroundImage: img,}}>
                     
                 </div>
                 <div className="flex flex-col w-full mx-5 p-9 lg:w-2/5 md:flex-row lg:flex-col">

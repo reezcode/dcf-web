@@ -36,7 +36,7 @@ const HeroData : HeroDataItem[] = [
             },
             {
                 text: "Daftar",
-                link: "/"
+                link: "/dashboard"
             },
         ]
     },
@@ -50,7 +50,7 @@ const HeroData : HeroDataItem[] = [
             },
             {
                 text: "Daftar",
-                link: "/"
+                link: "/dashboard"
             },
         ]
     },
@@ -64,7 +64,7 @@ const HeroData : HeroDataItem[] = [
             },
             {
                 text: "Daftar",
-                link: "/"
+                link: "/dashboard"
             },
         ]
     }

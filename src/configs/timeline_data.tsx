@@ -2,14 +2,14 @@ const timelineGeneral = [
     {
         idx: 1,
         title: "Penyisihan Abstrak LKTI",
-        viewDate: "15 Mei 2023",
+        viewDate: "15 Mei - 1 Juli 2023",
         startDate: "2023-05-12",
         endDate: "2023-07-10",
     },
     {
         idx: 2,
         title: "Pengumpulan Fullpaper LKTI",
-        viewDate: "11 Juli 2023",
+        viewDate: "11 Juli - 6 Agustus 2023",
         startDate: "2023-07-11",
         endDate: "2023-08-18",
     },

@@ -13,8 +13,9 @@ export default function Footer() {
           <p className="my-1 text-sm text-dcf-dark-brown">Sekretariat HMK UNDIP, Gedung A302 Kampus FSM Undip, Jl. Prof. Jacub Rais, Tembalang, Semarang, 50275</p>
         </div>
         <div>
-          <p className="my-1 text-sm text-dcf-dark-brown">Email</p>
-          <p className="my-1 text-sm text-dcf-dark-brown">Whatsapp</p>
+          <p className="my-1 text-sm text-dcf-dark-brown">Email: <a href="mailto:dcfundip2023@gmail.com">dcfundip2023@gmail.com</a></p>
+          <p className="my-1 text-sm text-dcf-dark-brown">Whatsapp: <a href="https://wa.me/088216639654" target="_blank">Zarka (Kompetisi)</a></p>
+          <p className="my-1 text-sm text-dcf-dark-brown">Whatsapp: <a href="https://wa.me/082279419057" target="_blank">Diah (LKTI)</a></p>
           <p className="my-2 text-sm text-dcf-dark-brown">Himpunan Mahasiswa Kimia Undip 2023</p>
         </div>
         <div className="flex flex-col mt-5 lg:mt-0">

@@ -2,6 +2,7 @@ interface SKDataItem {
     title: string;
     type: string;
     skOrBenefit?: Array<string>;
+    img: string;
     button?: {
         text: string;
         link: string;
@@ -14,6 +15,7 @@ const SKData : SKDataItem[] = [
     {
         title: "Syarat dan Ketentuan",
         type: "Kompetisi Kimia",
+        img:  "url('../../kompetisi.svg')",
         skOrBenefit: [
             "Siswa SMA/SMK/sederajat yang masih aktif baik kelas X/XI/XII pada tahun ajaran 2023/2024.", 
             "Peserta DCF 2023 merupakan perwakilan dari sekolah maupun pribadi.", 
@@ -23,7 +25,7 @@ const SKData : SKDataItem[] = [
         button: [
             {
                 text: "Buku Panduan",
-                link: "/"
+                link: "https://drive.google.com/file/d/1PyvEGjcnh6lB8GnLbSGzep2WI-70DZ3A/view?usp=sharing"
             },
             {
                 text: "Juknis Lomba",
@@ -31,11 +33,12 @@ const SKData : SKDataItem[] = [
             }
         ],
         harga: "Rp 99.999,-/orang",
-        regist: "/"
+        regist: "/dashboard"
     },
     {
         title: "Syarat dan Ketentuan",
         type: "LKTI",
+        img: "url('../../lkti.svg')",
         skOrBenefit: [
             "Siswa SMA/SMK/sederajat yang masih aktif baik kelas X/XI/XII pada tahun ajaran 2023/2024.", 
             "Satu tim terdiri dari 2-3 siswa dari sekolah yang sama dan maksimal tergabung ke dalam 2 tim yang berbeda.",
@@ -45,7 +48,7 @@ const SKData : SKDataItem[] = [
         button: [
             {
                 text: "Buku Panduan",
-                link: "/"
+                link: "https://drive.google.com/file/d/1Q-oRHes7ch0PizUqLy7gZ9ruXbJtcPQo/view?usp=sharing"
             },
             {
                 text: "Juknis Lomba",
@@ -53,19 +56,20 @@ const SKData : SKDataItem[] = [
             }
         ],
         harga: "Rp 99.999,-/tim",
-        regist: "/"
+        regist: "/dashboard"
     },
     {
         title: "Benefit",
         type: "Seminar Nasional",
         harga: "Gratis",
+        img: "url('../../semnas.svg')",
         skOrBenefit: [
             "Memperluas relasi peserta.", 
             "Memperoleh E-Certificate sebagai bukti bahwa peserta pernah mengikuti Seminar Nasional DCF 2023.",
             "Memperoleh kesempatan berdiskusi dengan pembicara.",
             "Pengetahuan baru yang dapat diterapkan dalam kehidupan sehari-hari.",
         ],
-        regist: "/",
+        regist: "/dashboard",
     },
 ]
 
