@@ -2,7 +2,7 @@ const timelineGeneral = [
     {
         idx: 1,
         title: "Penyisihan Abstrak LKTI",
-        viewDate: "12 Mei 2023",
+        viewDate: "15 Mei 2023",
         startDate: "2023-05-12",
         endDate: "2023-07-10",
     },
