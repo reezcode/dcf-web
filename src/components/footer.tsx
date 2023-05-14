@@ -1,10 +1,30 @@
 import Logo from "./logo"
 import Link from "next/link"
 import Arrow from "./arrow"
+import {motion, useAnimation} from "framer-motion"
+import { useInView } from "react-intersection-observer"
+import { useEffect } from "react"
 
 export default function Footer() {
+  const {ref, inView} = useInView();
+    const animation = useAnimation();
+
+    useEffect(() => {
+        if(inView) {
+            animation.start({
+                y:0,
+                opacity:100,
+                transition: {duration:0.7}
+            })
+        }
+        if(!inView) {
+            animation.start({y:100, opacity:0})
+        }
+    }, [inView]);
   return (
-    <div className="h-fit w-full bg-dcf-brown pb-20 px-5 shadow-[0_-22px_40px_#967E7625] m-font">
+    <motion.div ref={ref}
+    animate={animation}
+    className="h-fit w-full bg-dcf-brown pb-20 px-5 shadow-[0_-22px_40px_#967E7625] m-font">
       <Arrow children="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75" link="#"/>
       <Logo/>
       <div className="flex flex-col justify-between px-5 lg:flex-row">
@@ -54,7 +74,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
     
   )
 }

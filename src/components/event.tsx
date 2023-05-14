@@ -1,16 +1,28 @@
 import EventData from "@/configs/event_data";
 import { Card } from "./card";
-import {motion} from "framer-motion"
+import {motion,useAnimation} from "framer-motion"
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 export default function EventSection() {
+  const {ref, inView} = useInView();
+  const animation = useAnimation();
+
+    useEffect(() => {
+        if(inView) {
+            animation.start({
+                y:0,
+                opacity:100,
+                transition: {duration:0.7}
+            })
+        }
+        if(!inView) {
+            animation.start({y:100, opacity:0})
+        }
+    }, [inView]);
   return (
-    <motion.div 
-    variants={{
-      hidden : {opacity:0,y:75},
-      visible : {opacity:1,y:0}
-    }}
-    initial="hidden"
-    animate="visible"
+    <motion.div ref={ref}
+    animate={animation}
     id="event">
       <h1 className="p-3 text-2xl font-bold text-center sm:text-4xl m-font">Events</h1>
       <p className="px-10 text-sm text-center pb-9 sm:text-base m-font">

@@ -26,16 +26,16 @@ export default function Hero({ data }: HeroProps) {
     useEffect(() => {
         if(inView) {
             animation.start({
-                opacity:0,
+                opacity:100,
                 transition: {duration:0.5}
             })
         }
         if(!inView) {
-            // animation.start({opacity:100})
+            animation.start({opacity:0})
         }
     }, [inView]);
     return (
-        <motion.div 
+        <motion.div ref={ref}
         animate={animation}
         className="w-full h-[600px] sm:h-[450px] xl:h-[500px] bg-dcf-light-brown">
             <div className="flex flex-col items-center justify-between w-full h-full pb-20 overflow-hidden sm:flex-row">

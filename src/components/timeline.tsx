@@ -1,4 +1,7 @@
 import { CalloutR, CalloutL, CalloutU, CalloutD } from "./callout"
+import { motion, useAnimation } from "framer-motion"
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 const curDate = new Date()
 
@@ -7,20 +10,20 @@ function checkLive (sdate: string, edate: string, date: Date) {
     const end = new Date(edate);
     if (date > start && date < end) {
         return true
-      } else {
+    } else {
         return false
-      }
+    }
 }
 interface TimelineProps {
     timelineData: {
-      idx: number;
-      title: string;
-      viewDate: string;
-      startDate: string;
-      endDate: string;
+        idx: number;
+        title: string;
+        viewDate: string;
+        startDate: string;
+        endDate: string;
     }[];
-  }
-  
+    }
+    
 export default function Timeline({ timelineData }: TimelineProps) {
     const count = timelineData.length;
     function bullet(){
@@ -31,8 +34,25 @@ export default function Timeline({ timelineData }: TimelineProps) {
         }
         return content
     }
-  return (
-    <div className="flex flex-row justify-between w-full px-10 lg:px-20 mb-20 columns-3 lg:h-[250px] lg:items-center lg:flex-col">
+    const {ref, inView} = useInView();
+    const animation = useAnimation();
+
+    useEffect(() => {
+        if(inView) {
+            animation.start({
+                y:0,
+                opacity:100,
+                transition: {duration:0.7}
+            })
+        }
+        if(!inView) {
+            animation.start({y:100, opacity:0})
+        }
+    }, [inView]);
+    return (
+    <motion.div ref={ref}
+    animate={animation}
+    className="flex flex-row justify-between w-full px-10 lg:px-20 mb-20 columns-3 lg:h-[250px] lg:items-center lg:flex-col">
         <div className="flex flex-col items-end justify-between w-2/5 lg:hidden">
             <div className="-mt-[110px]"></div>
             {timelineData.map((data) => {
@@ -124,6 +144,6 @@ export default function Timeline({ timelineData }: TimelineProps) {
                     } 
             })}
         </div>
-    </div>
+    </motion.div>
   )
 }
