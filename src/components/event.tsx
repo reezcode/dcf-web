@@ -1,9 +1,17 @@
 import EventData from "@/configs/event_data";
 import { Card } from "./card";
+import {motion} from "framer-motion"
 
 export default function EventSection() {
   return (
-    <div id="event">
+    <motion.div 
+    variants={{
+      hidden : {opacity:0,y:75},
+      visible : {opacity:1,y:0}
+    }}
+    initial="hidden"
+    animate="visible"
+    id="event">
       <h1 className="p-3 text-2xl font-bold text-center sm:text-4xl m-font">Events</h1>
       <p className="px-10 text-sm text-center pb-9 sm:text-base m-font">
         Diponegoro Chemistry Fair 2023 terdiri dari 3 rangkaian acara yaitu Kompetisi Kimia, LKTI, dan Seminar Nasional              
@@ -13,7 +21,7 @@ export default function EventSection() {
               return <Card data={data} key={data.title}/>
           })}
       </div>
-    </div>
+    </motion.div>
     
   )
 }
