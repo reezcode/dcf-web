@@ -1,14 +1,11 @@
 import { EmptyLayout } from "@/components/layout";
-import { Button, PasswordInput, TextInput } from "@mantine/core";
-import { hasLength, isEmail, matchesField, useForm } from "@mantine/form";
+import { Button, PasswordInput } from "@mantine/core";
+import { hasLength, matchesField, useForm } from "@mantine/form";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import { At, Fingerprint, Hash } from "tabler-icons-react";
-import useUser from "./api/auth/redirect";
-import { notifications } from "@mantine/notifications";
+import { useEffect } from "react";
+import { Cookies, useCookies } from "react-cookie";
+import { Fingerprint } from "tabler-icons-react";
 
 interface dataNewPassword {
   email: string;
@@ -101,14 +98,6 @@ function NewForm() {
 }
 
 export default function reset() {
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-  const router = useRouter();
-  useEffect(() => {
-    if (cookies.user) {
-      router.push("/dashboard");
-    }
-  }, [cookies]);
-
   return (
     <EmptyLayout pageTitle="Reset Password">
       <div
@@ -134,4 +123,15 @@ export default function reset() {
       </div>
     </EmptyLayout>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const cookies = new Cookies();
+  const email = cookies.get("email") === undefined;
+  if (email) {
+    context.res.setHeader("Location", "/dashboard");
+    context.res.statusCode = 302;
+    context.res.end();
+  }
+  return { props: {} };
 }

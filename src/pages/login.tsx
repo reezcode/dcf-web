@@ -3,9 +3,9 @@ import { Button, PasswordInput, TextInput } from "@mantine/core";
 import { hasLength, isEmail, useForm } from "@mantine/form";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 import { At, Fingerprint } from "tabler-icons-react";
 import useUser from "./api/auth/redirect";
 import { notifications } from "@mantine/notifications";
@@ -16,13 +16,12 @@ interface dataLogin {
 }
 
 function LoginForm() {
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const cookies = new Cookies();
   const router = useRouter();
   const { mutateUser } = useUser({
     redirectTo: "/dashboard",
     redirectIfFound: true,
   });
-
   const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSubmit(values: dataLogin) {
@@ -41,17 +40,9 @@ function LoginForm() {
       setErrorMsg("Error");
     }
     if (response.ok) {
-      setCookie(
-        "user",
-        {
-          email: values.email,
-          isLoggedIn: true,
-        },
-        {
-          path: "/",
-          maxAge: 86400,
-        }
-      );
+      cookies.set("email", values.email, {
+        maxAge: 86400,
+      });
       router.replace("/dashboard");
     } else {
       notifications.show({
@@ -133,13 +124,6 @@ function LoginForm() {
 }
 
 export default function login() {
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-  const router = useRouter();
-  useEffect(() => {
-    if (cookies.user) {
-      router.push("/dashboard");
-    }
-  }, [cookies]);
   return (
     <EmptyLayout pageTitle="Login">
       <div
@@ -165,4 +149,15 @@ export default function login() {
       </div>
     </EmptyLayout>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const cookies = new Cookies();
+  const email = cookies.get("email") === undefined;
+  if (email) {
+    context.res.setHeader("Location", "/dashboard");
+    context.res.statusCode = 302;
+    context.res.end();
+  }
+  return { props: {} };
 }

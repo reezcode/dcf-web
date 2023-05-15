@@ -5,7 +5,7 @@ import { notifications } from "@mantine/notifications";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import { Hash } from "tabler-icons-react";
 
 interface dataToken {
@@ -84,14 +84,6 @@ function TokenForm() {
 }
 
 export default function check() {
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-  const router = useRouter();
-  useEffect(() => {
-    if (cookies.user) {
-      router.push("/dashboard");
-    }
-  }, [cookies]);
-
   return (
     <EmptyLayout pageTitle="Reset Password">
       <div
@@ -117,4 +109,15 @@ export default function check() {
       </div>
     </EmptyLayout>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const cookies = new Cookies();
+  const email = cookies.get("email") === undefined;
+  if (email) {
+    context.res.setHeader("Location", "/dashboard");
+    context.res.statusCode = 302;
+    context.res.end();
+  }
+  return { props: {} };
 }

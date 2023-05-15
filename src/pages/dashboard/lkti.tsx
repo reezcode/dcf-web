@@ -4,6 +4,7 @@ import Sidebar from "@/components/sidebar";
 import NavDashboard from "@/configs/navigation_dashboard";
 import { Button, TextInput } from "@mantine/core";
 import { useState } from "react";
+import { Cookies } from "react-cookie";
 import {
   At,
   BrandWhatsapp,
@@ -217,4 +218,15 @@ export default function profil() {
       </div>
     </EmptyLayout>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const cookies = new Cookies();
+  const email: boolean = cookies.get("email") !== undefined;
+  if (email) {
+    context.res.setHeader("Location", "/login");
+    context.res.statusCode = 302;
+    context.res.end();
+  }
+  return { props: {} };
 }

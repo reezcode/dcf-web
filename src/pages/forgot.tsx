@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import { At, Fingerprint, Hash } from "tabler-icons-react";
 import useUser from "./api/auth/redirect";
 import { notifications } from "@mantine/notifications";
@@ -97,14 +97,6 @@ function ForgotForm() {
 }
 
 export default function forgot() {
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-  const router = useRouter();
-  useEffect(() => {
-    if (cookies.user) {
-      router.push("/dashboard");
-    }
-  }, [cookies]);
-
   return (
     <EmptyLayout pageTitle="Reset Password">
       <div
@@ -130,4 +122,15 @@ export default function forgot() {
       </div>
     </EmptyLayout>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const cookies = new Cookies();
+  const email = cookies.get("email") === undefined;
+  if (email) {
+    context.res.setHeader("Location", "/dashboard");
+    context.res.statusCode = 302;
+    context.res.end();
+  }
+  return { props: {} };
 }
