@@ -30,7 +30,7 @@ export default function About({data} : AboutProps) {
             })
         }
         if(!inView) {
-            animation.start({y:100, opacity:0})
+            animation.start({y:-100, opacity:0})
         }
     }, [inView]);
     return (
