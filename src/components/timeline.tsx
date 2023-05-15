@@ -51,7 +51,6 @@ export default function Timeline({ timelineData }: TimelineProps) {
     }, [inView]);
     return (
     <motion.div ref={ref}
-    animate={animation}
     className="flex flex-row justify-between w-full px-10 lg:px-20 mb-20 columns-3 lg:h-[250px] lg:items-center lg:flex-col">
         <div className="flex flex-col items-end justify-between w-2/5 lg:hidden">
             <div className="-mt-[110px]"></div>

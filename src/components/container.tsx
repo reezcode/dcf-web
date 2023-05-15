@@ -18,7 +18,7 @@ export default function Container() {
             })
         }
         if(!inView) {
-            animation.start({y:100, opacity:0})
+            animation.start({y:-100, opacity:0})
         }
     }, [inView]);
     return (

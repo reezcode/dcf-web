@@ -2,6 +2,9 @@ import { Url } from "next/dist/shared/lib/router/router";
 import Buttons from "./buttons"
 import SKData from "@/configs/sk_data"
 import Link from "next/link";
+import { use, useEffect } from "react";
+import { useAnimation,motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 type SKData = {
     title: string;
@@ -22,17 +25,55 @@ type SKProps = {
 
 export default function SyaratKetentuan({data}:SKProps) {
     const { title, type, skOrBenefit, button, harga, regist, img } = data;
+        
+    const {ref, inView} = useInView();
+    const slideL = useAnimation();
+    const slideR = useAnimation();
+    const animation = useAnimation();
+
+    useEffect(() => {
+        if(inView) {
+            slideL.start({
+                x:0,
+                opacity:100,
+                transition: {duration:0.7}
+            })
+            slideR.start({
+                x:0,
+                opacity:100,
+                transition: {duration:0.7}
+            })
+            animation.start({
+                y:0,
+                opacity:100,
+                transition: {duration:0.7}
+            })
+        }
+        if(!inView) {
+            slideL.start({x:20, opacity:0})
+            slideR.start({x:-20,opacity:0})
+            animation.start({y:100,opacity:100})
+        }
+    }, [inView]);
     return (
-        <div className="mb-12" id="sk">
+        <motion.div ref={ref}
+        animate={animation}
+        className="mb-12" id="sk">
             <h1 className="p-3 text-2xl font-bold text-center sm:text-4xl">{title}</h1>
             <p className="px-10 pb-5 text-sm text-center lg:pb-0 sm:text-base">
                 {title} dalam mengikuti {type} DCF 2023 adalah sebagai berikut           
             </p>
             <div className="flex flex-col items-center my-5 md:justify-center md:h-fit lg:flex-row">
-                <div className="w-11/12 lg:w-[400px] h-[300px] lg:h-[400px] overflow-hidden bg-dcf-blue rounded-[20px] p-3 mx-5 shadow-xl shadow-dcf-light-brown/50 hover:shadow-dcf-light-brown/80 duration-300 hover:scale-105 cursor-pointer bg-cover" style={{backgroundImage: img,}}>
+                <motion.div 
+                ref={ref}
+                animate={slideL}
+                className="w-11/12 lg:w-[400px] h-[300px] lg:h-[400px] overflow-hidden bg-dcf-blue rounded-[20px] p-3 mx-5 shadow-xl shadow-dcf-light-brown/50 hover:shadow-dcf-light-brown/80 duration-300 hover:scale-105 cursor-pointer bg-cover" style={{backgroundImage: img,}}>
                     
-                </div>
-                <div className="flex flex-col w-full mx-5 p-9 lg:w-2/5 md:flex-row lg:flex-col">
+                </motion.div>
+                <motion.div 
+                ref={ref}
+                animate={slideR}
+                className="flex flex-col w-full mx-5 p-9 lg:w-2/5 md:flex-row lg:flex-col">
                     <div className="px-3 text-sm lg:text-base">
                         {skOrBenefit?.map((data)=> (
                             <div>
@@ -61,8 +102,8 @@ export default function SyaratKetentuan({data}:SKProps) {
                             </Link>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
-        </div>
+        </motion.div>
     )
 }

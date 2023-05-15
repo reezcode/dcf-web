@@ -2,7 +2,10 @@ import { Url } from "next/dist/shared/lib/router/router";
 import Buttons from "./buttons";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import {motion,useAnimation} from "framer-motion"
+
 interface CardProps{
     data: {
         imgUrl: string;
@@ -36,8 +39,26 @@ interface PrizeProps{
 
 function CardPrize(props: PrizeProps){
     const { data } = props;
+    
+    const {ref, inView} = useInView();
+    const animation = useAnimation();
+  
+    useEffect(() => {
+        if(inView) {
+            animation.start({
+                y:0,
+                opacity:100,
+                transition: {duration:0.7}
+            })
+        }
+        if(!inView) {
+            animation.start({y:100, opacity:0})
+        }
+      }, [inView]);
     return (
-        <div className="flex-none w-11/12 shadow-lg h-fit m-font rounded-xl bg-dcf-light-brown lg:w-[400px] lg:h-fit mb-10 lg:mx-auto">
+        <motion.div ref={ref}
+        animate={animation}
+        className="flex-none w-11/12 shadow-lg h-fit m-font rounded-xl bg-dcf-light-brown lg:w-[400px] lg:h-fit mb-10 lg:mx-auto">
             <div className="flex flex-col items-center justify-center p-10">
                 <Image src={''+data.imgUrl} width={75} height={75} alt="photo" className="rounded-full"/>
                 <h3 className="mt-3 font-bold text-center">{data.title}</h3>
@@ -46,7 +67,7 @@ function CardPrize(props: PrizeProps){
                     <p>{data.hadiah}</p>
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 

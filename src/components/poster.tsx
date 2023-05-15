@@ -1,7 +1,9 @@
 import Image from "next/image";
 import ImageViewer from "react-simple-image-viewer";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import images from "@/configs/poster_data";
+import { useAnimation,motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 export default function PosterSection() {
   const [currentImage, setCurrentImage] = useState(0);
@@ -17,8 +19,27 @@ export default function PosterSection() {
     setIsViewerOpen(false);
   };
   
+  const {ref, inView} = useInView();
+  const animation = useAnimation();
+
+  useEffect(() => {
+      if(inView) {
+          animation.start({
+              y:0,
+              opacity:100,
+              transition: {duration:0.7}
+          })
+      }
+      if(!inView) {
+          animation.start({y:100, opacity:0})
+      }
+    }, [inView]);
+  
   return (
-    <div id="poster">
+    <motion.div ref={ref}
+    animate={animation}
+    id="poster"
+    className="pb-12">
       <h1 className="p-3 text-2xl font-bold text-center sm:text-4xl m-font">Poster</h1>
       <p className="px-10 text-sm text-center pb-9 sm:text-base m-font">
       Poster Pelaksanaan Rangkaian Acara Diponegoro Chemistry Fair 2023             
@@ -46,6 +67,6 @@ export default function PosterSection() {
                 />
             )}
         </div>
-    </div>
+    </motion.div>
   )
 }
