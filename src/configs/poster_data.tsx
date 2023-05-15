@@ -1,5 +1,5 @@
 const images = [
-    '../../poster_placeholder.svg',
+    '../../poster.svg',
 
 ];
 
