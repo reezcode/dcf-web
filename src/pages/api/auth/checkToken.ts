@@ -19,15 +19,15 @@ export default async function tokenHandler(
     }
     const tokenVerify = "BOBO" === token; //await verifyPassword(token, existingUser.reset_token);
     if (tokenVerify) {
-      const updateToken = await prisma.user.update({
-        where: {
-          email: email,
-        },
-        data: {
-          reset_token: "",
-          reset_token_date: new Date(),
-        },
-      });
+      // const updateToken = await prisma.user.update({
+      //   where: {
+      //     email: email,
+      //   },
+      //   data: {
+      //     reset_token: "",
+      //     reset_token_date: new Date(),
+      //   },
+      // });
       return res.status(201).json({ message: "Verifikasi token berhasil" });
     } else {
       return res.status(409).json({ message: "Token tidak valid" });
