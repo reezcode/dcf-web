@@ -19,15 +19,15 @@ export default async function forgotHandler(
     }
 
     const token = "BOBO"; //await hashPassword(generateRandom(12));
-    const updateToken = await prisma.user.update({
-      where: {
-        email: email,
-      },
-      data: {
-        reset_token: token,
-        reset_token_date: new Date(),
-      },
-    });
+    // const updateToken = await prisma.user.update({
+    //   where: {
+    //     email: email,
+    //   },
+    //   data: {
+    //     reset_token: token,
+    //     reset_token_date: new Date(),
+    //   },
+    // });
 
     return res.status(201).json({ message: "Token berhasil dikirim" });
   }
