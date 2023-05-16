@@ -3,11 +3,8 @@ import { EmptyLayout } from "@/components/layout";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Cookies } from "react-cookie";
-interface SekolahProps {
-  dataSekolah: Array<any>;
-}
 
-export default function register({ dataSekolah }: SekolahProps) {
+export default function register() {
   return (
     <EmptyLayout pageTitle="Register">
       <div
@@ -29,7 +26,7 @@ export default function register({ dataSekolah }: SekolahProps) {
                 Start your Journey!
               </h1>
             </div>
-            <RegistrationForm dataSekolah={dataSekolah} />
+            <RegistrationForm />
           </div>
         </div>
       </div>
@@ -37,34 +34,34 @@ export default function register({ dataSekolah }: SekolahProps) {
   );
 }
 
-export async function getServerSideProps(context: any) {
-  const cookies = new Cookies();
-  const email = cookies.get("email") === undefined;
-  if (email) {
-    context.res.setHeader("Location", "/dashboard");
-    context.res.statusCode = 302;
-    context.res.end();
-  }
-  const resSMK = await fetch(
-    "https://api-sekolah-indonesia.vercel.app/sekolah/SMK?provinsi=030000&page=1&perPage=10000"
-  );
-  const resSMA = await fetch(
-    "https://api-sekolah-indonesia.vercel.app/sekolah/SMA?provinsi=030000&page=1&perPage=10000"
-  );
-  const dataSMA = await resSMA.json();
-  const dataSMK = await resSMK.json();
-  const dataMappedSMA = dataSMA.dataSekolah;
-  const dataSekolahSMA = dataMappedSMA.map((item: any) => {
-    return item.sekolah;
-  });
-  const dataMappedSMK = dataSMK.dataSekolah;
-  const dataSekolahSMK = dataMappedSMK.map((item: any) => {
-    return item.sekolah;
-  });
-  const dataSekolah = [].concat(dataSekolahSMA, dataSekolahSMK);
-  return {
-    props: {
-      dataSekolah,
-    },
-  };
-}
+// export async function getServerSideProps(context: any) {
+//   const cookies = new Cookies();
+//   const email = cookies.get("email") === undefined;
+//   if (!email) {
+//     context.res.setHeader("Location", "/dashboard");
+//     context.res.statusCode = 302;
+//     context.res.end();
+//   }
+//   const resSMK = await fetch(
+//     "https://api-sekolah-indonesia.vercel.app/sekolah/SMK?provinsi=030000&page=1&perPage=10000"
+//   );
+//   const resSMA = await fetch(
+//     "https://api-sekolah-indonesia.vercel.app/sekolah/SMA?provinsi=030000&page=1&perPage=10000"
+//   );
+//   const dataSMA = await resSMA.json();
+//   const dataSMK = await resSMK.json();
+//   const dataMappedSMA = dataSMA.dataSekolah;
+//   const dataSekolahSMA = dataMappedSMA?.map((item: any) => {
+//     return item.sekolah;
+//   });
+//   const dataMappedSMK = dataSMK.dataSekolah;
+//   const dataSekolahSMK = dataMappedSMK?.map((item: any) => {
+//     return item.sekolah;
+//   });
+//   const dataSekolah = [].concat(dataSekolahSMA, dataSekolahSMK);
+//   return {
+//     props: {
+//       dataSekolah,
+//     },
+//   };
+// }

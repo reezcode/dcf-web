@@ -26,9 +26,6 @@ import {
 import Image from "next/image";
 import { ChangeEvent, MouseEvent, useState } from "react";
 import axios from "axios";
-interface dataProps {
-  dataSekolah: Array<any>;
-}
 
 interface dataRegist {
   nama: string;
@@ -38,8 +35,7 @@ interface dataRegist {
   event: string;
 }
 
-function RegistrationForm(props: dataProps) {
-  const { dataSekolah } = props;
+function RegistrationForm() {
   const router = useRouter();
   const [error, setError] = useState(null);
   const form = useForm({
@@ -110,14 +106,13 @@ function RegistrationForm(props: dataProps) {
           />
         </div>
         <div className="mt-2">
-          <Autocomplete
+          <TextInput
             icon={<School size={20} />}
             label="Asal Instansi"
             id="asal_sekolah"
             required
             withAsterisk={true}
             placeholder="Masukkan nama sekolah"
-            data={dataSekolah}
             {...form.getInputProps("asal_sekolah")}
           />
         </div>

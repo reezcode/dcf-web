@@ -7,7 +7,7 @@ import { Cookies } from "react-cookie";
 
 export default function index() {
   const cookies = new Cookies();
-  const email = cookies.get("email") === undefined;
+  const email = cookies.get("email");
   console.log(email);
   return (
     <EmptyLayout pageTitle="Dashboard">
