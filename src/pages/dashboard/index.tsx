@@ -2,17 +2,20 @@ import { EmptyLayout } from "@/components/layout";
 import NavButton from "@/components/nav_button";
 import Sidebar from "@/components/sidebar";
 import NavDashboard from "@/configs/navigation_dashboard";
+import { useAuth } from "@/firebase/provider/AuthProvider";
 import { useRouter } from "next/router";
-import { Cookies } from "react-cookie";
+import { useEffect } from "react";
 
 export default function index() {
-  const cookies = new Cookies();
-  const email = cookies.get("email");
-  console.log(email);
+  const { user } = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    if (user === null) router.push("/login");
+  }, [user]);
   return (
     <EmptyLayout pageTitle="Dashboard">
       <div
-        className="bg-center bg-auto lg:w-screen lg:h-screen h-fit "
+        className="bg-center bg-auto lg:w-screen lg:h-screen h-fit m-font"
         style={{
           backgroundImage: "url('../../bgform.svg')",
         }}
@@ -50,10 +53,11 @@ export default function index() {
               <div className="col-span-2 row-span-2 bg-white rounded-[5px] p-3">
                 <p className="text-[12px] text-black/60">Pengumuman</p>
                 <div className="my-2 bg-dcf-light-brown/60 rounded-[5px] py-1 px-2">
-                  <p className="text-sm font-medium">Maintenance Telah Usai</p>
-                  <p className="text-[12px] place-content-end">
-                    Dashboard bisa digunakan kembali
+                  <p className="text-sm font-medium">
+                    System dalam proses perbaikan, beberapa fitur mungkin tidak
+                    dapat diakses
                   </p>
+                  <p className="text-[12px] place-content-end">17 Mei 2023</p>
                 </div>
               </div>
               <div
@@ -84,15 +88,4 @@ export default function index() {
       </div>
     </EmptyLayout>
   );
-}
-
-export async function getServerSideProps(context: any) {
-  const cookies = new Cookies();
-  const email: boolean = cookies.get("email") !== undefined;
-  if (email) {
-    context.res.setHeader("Location", "/login");
-    context.res.statusCode = 302;
-    context.res.end();
-  }
-  return { props: {} };
 }

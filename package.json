@@ -35,13 +35,17 @@
     "dayjs": "^1.11.7",
     "embla-carousel-react": "^7.1.0",
     "eslint-config-next": "13.3.1",
+    "firebase": "^9.22.0",
     "formidable": "^2.1.1",
     "framer-motion": "^10.12.10",
     "fs": "^0.0.1-security",
     "iron-session": "^6.3.1",
     "mime": "^3.0.0",
+    "mysql": "^2.18.1",
+    "net": "^1.0.2",
     "next": "^13.3.1",
     "next-auth": "^4.22.1",
+    "next-connect": "^1.0.0",
     "next-iron-session": "^4.2.0",
     "nextjs-progressbar": "^0.0.16",
     "postcss": "8.4.23",
@@ -53,9 +57,11 @@
     "react-player": "^2.12.0",
     "react-simple-image-viewer": "^1.2.2",
     "reactstrap": "^9.1.9",
+    "serverless-mysql": "^1.5.5",
     "swr": "^2.1.5",
     "tabler-icons-react": "^1.56.0",
-    "tailwindcss": "3.3.1"
+    "tailwindcss": "3.3.1",
+    "tls": "^0.0.1"
   },
   "devDependencies": {
     "@types/aos": "^3.0.4",
@@ -68,7 +74,6 @@
     "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
-    "prisma": "^4.13.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   }

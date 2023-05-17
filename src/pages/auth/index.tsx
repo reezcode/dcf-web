@@ -4,11 +4,9 @@ import { Button, PasswordInput, TextInput } from "@mantine/core";
 import { hasLength, isEmail, useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Cookies } from "react-cookie";
-import { At, Fingerprint } from "tabler-icons-react";
+import { useEffect } from "react";
+import { Fingerprint, User } from "tabler-icons-react";
 
 interface dataLogin {
   email: string;
@@ -17,10 +15,8 @@ interface dataLogin {
 
 function LoginForm() {
   const router = useRouter();
-  const { signIn, user } = useAuth();
-  useEffect(() => {
-    if (user != null) router.push("/dashboard");
-  }, [user]);
+  const { signIn } = useAuth();
+  useEffect(() => {});
 
   async function handleSubmit(values: dataLogin) {
     const body = {
@@ -71,12 +67,12 @@ function LoginForm() {
       <div className="mt-5">
         <div>
           <TextInput
-            icon={<At size={20} />}
+            icon={<User size={20} />}
             id="input-email"
             withAsterisk={true}
-            label="Email"
-            placeholder="example@email.com"
-            {...form.getInputProps("email")}
+            label="Username"
+            placeholder="Input an username"
+            {...form.getInputProps("username")}
           />
         </div>
         <div className="mt-2">
@@ -87,12 +83,6 @@ function LoginForm() {
             required
             {...form.getInputProps("password")}
           />
-          <Link
-            href={"/forgot"}
-            className="text-[12px] m-font font-semibold text-dcf-dark-brown mt-5"
-          >
-            Lupa Password?
-          </Link>
         </div>
         <div className="flex flex-col items-center justify-center mt-5">
           <Button
@@ -101,16 +91,6 @@ function LoginForm() {
           >
             Login
           </Button>
-          <p className="text-[12px] text-slate-700 mt-2 text-center">
-            Belum memiliki akun?
-            <Link
-              href={"/register"}
-              className="font-semibold text-dcf-dark-brown"
-            >
-              {" "}
-              Daftar
-            </Link>
-          </p>
         </div>
       </div>
     </form>
@@ -135,7 +115,7 @@ export default function login() {
                 height={100}
                 alt="Logo DCF"
               />
-              <h1 className="mt-2 text-lg font-bold m-font">Welcome Back!</h1>
+              <h1 className="mt-2 text-lg font-bold m-font">Admin Access!</h1>
             </div>
             <LoginForm />
           </div>

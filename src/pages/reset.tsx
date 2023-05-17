@@ -1,21 +1,21 @@
+import { useSearchParams } from "next/navigation";
 import { EmptyLayout } from "@/components/layout";
+import { confirmThePasswordReset } from "@/firebase/provider/AuthProvider";
 import { Button, PasswordInput } from "@mantine/core";
 import { hasLength, matchesField, useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { Cookies, useCookies } from "react-cookie";
+import { useState } from "react";
 import { Fingerprint } from "tabler-icons-react";
 
 interface dataNewPassword {
-  email: string;
   newPassword: string;
   confirmPassword: string;
 }
 
 function NewForm() {
   const router = useRouter();
-  const { asPath, pathname } = router;
   const form = useForm({
     initialValues: {
       newPassword: "",
@@ -26,34 +26,41 @@ function NewForm() {
       confirmPassword: matchesField("newPassword", "Passwords tidak sama"),
     },
   });
+  const searchParams = useSearchParams();
+  const [successMessage, setSuccessMessage] = useState(false);
 
-  const email = asPath.substring(asPath.indexOf("=") + 1, asPath.indexOf("&"));
-  const token = asPath.substring(asPath.lastIndexOf("=") + 1);
-
-  // useeffect ngecek klo dia tokennya null balik kelogin
-  // kalo dia tokennya experied dia balik ke login
+  let oobCode: string | null = searchParams.get("oobCode");
 
   async function handleNewPassword(values: dataNewPassword) {
-    const body = {
-      type: "resetPassword",
-      email: values.email,
-      newPassword: values.newPassword,
-      confirmPassword: values.confirmPassword,
-    };
-    const response = await fetch("/api/auth/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    if (response.ok) {
-      router.push("/login");
+    const { confirmPassword, newPassword } = values;
+    try {
+      if (oobCode) {
+        await confirmThePasswordReset(oobCode, confirmPassword);
+        setSuccessMessage(true);
+        notifications.show({
+          title: "Berhasil",
+          message: "Password berhasil direset",
+          color: "green",
+        });
+      } else {
+        notifications.show({
+          title: "Peringatan",
+          message: "Terjadi kesalahan, coba lagi nanti",
+          color: "red",
+        });
+      }
+    } catch (error: any) {
+      notifications.show({
+        title: "Peringatan",
+        message: "Link reset password mengalami kerusakan",
+        color: "red",
+      });
     }
   }
   return (
     <form
       onSubmit={form.onSubmit((values) => {
         const dataPass: dataNewPassword = {
-          email: email,
           newPassword: values.newPassword,
           confirmPassword: values.confirmPassword,
         };
@@ -123,15 +130,4 @@ export default function reset() {
       </div>
     </EmptyLayout>
   );
-}
-
-export async function getServerSideProps(context: any) {
-  const cookies = new Cookies();
-  const email = cookies.get("email") === undefined;
-  if (email) {
-    context.res.setHeader("Location", "/dashboard");
-    context.res.statusCode = 302;
-    context.res.end();
-  }
-  return { props: {} };
 }

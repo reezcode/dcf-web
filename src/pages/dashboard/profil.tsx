@@ -1,37 +1,97 @@
-import React, { useEffect, useState } from "react";
-import Sidebar from "@/components/sidebar";
-import NavDashboard from "@/configs/navigation_dashboard";
-import NavButton from "@/components/nav_button";
-import { EmptyLayout } from "@/components/layout";
-import { TextInput } from "@mantine/core";
-import {
-  At,
-  FileUpload,
-  School,
-  Tex,
-  UserCircle,
-  BrandWhatsapp,
-} from "tabler-icons-react";
-import { Button } from "@mantine/core";
-import { useRouter } from "next/router";
-import { Cookies, useCookies } from "react-cookie";
 import { UploadForm } from "@/components/form";
+import { EmptyLayout } from "@/components/layout";
+import NavButton from "@/components/nav_button";
+import Sidebar from "@/components/sidebar";
 import AdminNavDashboard from "@/configs/Admin_Nav";
+import NavDashboard from "@/configs/navigation_dashboard";
+import addData from "@/firebase/auth/addData";
+import getDataUser from "@/firebase/auth/getData";
+import { useAuth } from "@/firebase/provider/AuthProvider";
+import UserModel from "@/model/UserModel";
+import { Button, PasswordInput, TextInput } from "@mantine/core";
+import { hasLength, isEmail, isNotEmpty, useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
+import { getAuth, signOut } from "firebase/auth";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { Cookies } from "react-cookie";
+import { At, BrandWhatsapp, School, UserCircle } from "tabler-icons-react";
 
 export default function profil() {
   const [edit, setEdit] = useState(false);
-  const cookies = new Cookies();
+  const [data, setData] = useState<UserModel>({} as UserModel);
+  const { user, signIn } = useAuth();
+  const email = user?.email ? user.email : "Loading";
+  async function callData() {
+    await getDataUser(email).then((res) => {
+      setData(res);
+    });
+  }
+  callData();
   const router = useRouter();
   const handleEdit = () => {
     setEdit(true);
-    if (edit) {
-      console.log("edit");
+  };
+  useEffect(() => {
+    if (user === null) router.push("/login");
+  }, [user]);
+  const form = useForm({
+    initialValues: {
+      nama: "",
+      asal_sekolah: "",
+      email: "",
+      confirmPassword: "",
+      no_hp: "",
+    },
+    validate: {
+      nama: hasLength({ min: 2, max: 25 }, "Panjang nama antara 2-25 karakter"),
+      asal_sekolah: isNotEmpty("Masukan asal sekolah"),
+      email: isEmail("Invalid email"),
+      confirmPassword: hasLength(
+        { min: 8 },
+        "Panjang password minimal 8 karakter"
+      ),
+      no_hp: hasLength(
+        { min: 10, max: 13 },
+        "Panjang no hp antara 10-13 karakter"
+      ),
+    },
+  });
+  const handleUpdate = async (user: UserModel) => {
+    const data = {
+      email: user.email,
+      no_hp: user.no_hp,
+      nama: user.nama,
+      asal_sekolah: user.asal_sekolah,
+    };
+    try {
+      const res = await signIn(user.email, user.upassword);
+      try {
+        const { result, error } = await addData("users", email, data);
+        notifications.show({
+          title: "Berhasil",
+          message: "Data berhasil diupdate",
+          color: "green",
+        });
+      } catch (e) {
+        notifications.show({
+          title: "Update gagal",
+          message: "Data gagal diupdate",
+          color: "red",
+        });
+      }
+    } catch (e) {
+      notifications.show({
+        title: "Update gagal",
+        message: "Password yang anda masukan salah",
+        color: "red",
+      });
     }
   };
   return (
     <EmptyLayout pageTitle="Profil">
       <div
-        className="bg-center bg-cover lg:w-screen h-fit lg:h-screen"
+        className="bg-center bg-cover lg:w-screen h-fit lg:h-screen m-font"
         style={{
           backgroundImage: "url('../../bgform.svg')",
         }}
@@ -55,14 +115,14 @@ export default function profil() {
                   />
                 </svg>
                 <div>
-                  <p className="text-sm font-medium">Rozy Rodriques</p>
-                  <p className="pr-5 text-sm">kristiandavid644@gmai.com</p>
+                  <p className="text-sm font-medium">{data.nama}</p>
+                  <p className="pr-5 text-sm">{data.email}</p>
                 </div>
                 <form
                   className="mx-5 mt-2"
                   onSubmit={() => {
                     router.push("/login");
-                    cookies.remove("email");
+                    signOut(getAuth());
                   }}
                 >
                   <Button
@@ -75,7 +135,19 @@ export default function profil() {
               </div>
               <div className="row-span-5 row-start-2 p-5 bg-white rounded-md shadow-lg shadow-dcf-dark-brown/30">
                 <p className="text-[12px] text-black/60">Profil Peserta</p>
-                <form onSubmit={() => {}}>
+                <form
+                  onSubmit={form.onSubmit((values) => {
+                    const dataUp: UserModel = {
+                      email: email,
+                      nama: values.nama,
+                      asal_sekolah: values.asal_sekolah,
+                      no_hp: values.no_hp,
+                      upassword: values.confirmPassword,
+                      url: "",
+                    };
+                    handleUpdate(dataUp);
+                  })}
+                >
                   <div>
                     <TextInput
                       icon={<UserCircle size={20} />}
@@ -83,53 +155,63 @@ export default function profil() {
                       withAsterisk={true}
                       label="Nama Lengkap"
                       disabled={!edit}
-                      placeholder="Moestafa"
+                      placeholder={data.nama}
+                      {...form.getInputProps("nama")}
                     />
                   </div>
                   <div>
                     <TextInput
                       icon={<School size={20} />}
-                      label="Asal Sekolah"
+                      label="Asal Instansi"
                       id="asal_sekolah"
                       required
                       withAsterisk={true}
-                      placeholder="SMA 3 Bekasi"
+                      placeholder={data.asal_sekolah}
                       disabled={!edit}
-                    />
-                  </div>
-                  <div>
-                    <TextInput
-                      icon={<At size={20} />}
-                      id="input-email"
-                      withAsterisk={true}
-                      label="Email"
-                      disabled={!edit}
-                      placeholder="Moestafa1976@gmail.com"
+                      {...form.getInputProps("asal_sekolah")}
                     />
                   </div>
                   <div>
                     <TextInput
                       icon={<BrandWhatsapp size={20} />}
-                      id="telp"
+                      id="no_hp"
                       withAsterisk={true}
                       label="Whatsapp"
                       disabled={!edit}
-                      placeholder="08xxxx"
+                      placeholder={data.no_hp}
+                      {...form.getInputProps("no_hp")}
+                    />
+                  </div>
+                  <div>
+                    <PasswordInput
+                      icon={<At size={20} />}
+                      id="input-pass"
+                      withAsterisk={true}
+                      label="Konfirmasi Password"
+                      disabled={!edit}
+                      placeholder="****"
+                      {...form.getInputProps("confirmPassword")}
                     />
                   </div>
                   <div className="w-1/3 mx-auto my-4">
                     <Button
                       disabled={!edit}
                       type="submit"
+                      onClick={() => {}}
                       className="w-full bg-dcf-dark-brown hover:bg-dcf-dark-brown/90"
                     >
                       Update Data
                     </Button>
                   </div>
                 </form>
-                {/* <div onClick={handleEdit} className={`flex items-center justify-center w-full -mt-2 text-sm text-dcf-dark-brown cursor-pointer ${(edit) ? 'hidden' : ''}`}>
-                                    <p>Edit Data</p> 
-                                    </div> */}
+                <div
+                  onClick={handleEdit}
+                  className={`flex items-center justify-center w-full -mt-2 text-sm text-dcf-dark-brown cursor-pointer ${
+                    edit ? "hidden" : ""
+                  }`}
+                >
+                  <p>Edit Data</p>
+                </div>
               </div>
               <div className="flex flex-col row-span-3 p-5 bg-white rounded-md shadow-lg shadow-dcf-dark-brown/30">
                 <p className="text-[12px] text-black/60">
@@ -158,13 +240,6 @@ export default function profil() {
               return <NavButton data={data} key={data.title} />;
             })}
           </div>
-        </div>
-      </div>
-      <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 lg:hidden">
-        <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
-          {AdminNavDashboard.map((data) => {
-            return <NavButton data={data} key={data.title} />;
-          })}
         </div>
       </div>
     </EmptyLayout>

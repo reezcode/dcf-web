@@ -1,16 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "@/components/sidebar";
 import NavButton from "@/components/nav_button";
 import NavDashboard from "@/configs/navigation_dashboard";
 import Buttons from "@/components/buttons";
 import { EmptyLayout } from "@/components/layout";
 import { Cookies } from "react-cookie";
+import getDataUser from "@/firebase/auth/getData";
+import { useAuth } from "@/firebase/provider/AuthProvider";
+import UserModel from "@/model/UserModel";
 
 export default function perlombaan() {
+  const [data, setData] = useState<UserModel>({} as UserModel);
+  const { user, signIn } = useAuth();
+  const email = user?.email ? user.email : "Loading";
+  async function callData() {
+    await getDataUser(email).then((res) => {
+      setData(res);
+    });
+  }
+  callData();
+  const lomba = data.id_lomba == 0 ? true : data.id_lomba == 1 ? true : false;
+  const lomba2 = data.id_lomba == 0 ? true : data.id_lomba == 2 ? true : false;
   return (
     <EmptyLayout pageTitle="Perlombaan">
       <div
-        className="bg-center bg-auto lg:w-screen lg:h-screen h-fit "
+        className="bg-center bg-auto lg:w-screen lg:h-screen h-fit m-font"
         style={{
           backgroundImage: "url('../../bgform.svg')",
         }}
@@ -24,6 +38,15 @@ export default function perlombaan() {
                 className="h-full my-4 overflow-hidden bg-center bg-cover rounded-md shadow-lg bg-dcf-light-brown lg:my-2 shadow-dcf-dark-brown/30"
                 style={{ backgroundImage: "url('../../kompetisi.svg')" }}
               >
+                {!lomba ? (
+                  <div className="flex items-center justify-center w-full h-full bg-slate-800/50">
+                    <p className="text-lg font-bold text-white m-font">
+                      Anda Sudah Terdaftar pada lomba yang lain!
+                    </p>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <div className="w-full h-full bg-gradient-to-r from-dcf-light-brown from-50% to-dcf-light-brown/30 to-100% p-5 flex flex-col justify-end overflow-hidden">
                   <h1 className="px-4 font-semibold">Kompetisi Kimia</h1>
                   <a
@@ -38,7 +61,10 @@ export default function perlombaan() {
                   </p>
 
                   <div className="flex">
-                    <Buttons text="Daftar" link="/dashboard/kompetisi" />
+                    <Buttons
+                      text={lomba ? "Koridor" : "Daftar"}
+                      link="/dashboard/kompetisi"
+                    />
                     <Buttons text="Panduan" link="" />
                     <Buttons text="Juknis" link="" />
                   </div>
@@ -48,6 +74,15 @@ export default function perlombaan() {
                 className="h-full my-4 overflow-hidden bg-center bg-cover rounded-md shadow-lg bg-dcf-light-brown lg:my-2 shadow-dcf-dark-brown/30"
                 style={{ backgroundImage: "url('../../lkti.svg')" }}
               >
+                {!lomba2 ? (
+                  <div className="flex items-center justify-center w-full h-full bg-slate-800/50">
+                    <p className="text-lg font-bold text-white m-font">
+                      Anda Sudah Terdaftar pada lomba yang lain!
+                    </p>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <div className="w-full h-full bg-gradient-to-r from-dcf-light-brown from-50% to-dcf-light-brown/30 to-100% p-5 flex flex-col justify-end overflow-hidden">
                   <h1 className="px-4 font-semibold">
                     Lomba Karya Tulis Ilmiah
@@ -57,7 +92,10 @@ export default function perlombaan() {
                     Energy
                   </p>
                   <div className="flex">
-                    <Buttons text="Daftar" link="/dashboard/lkti" />
+                    <Buttons
+                      text={lomba2 ? "Koridor" : "Daftar"}
+                      link="/dashboard/lkti"
+                    />
                     <Buttons text="Panduan" link="" />
                     <Buttons text="Juknis" link="" />
                   </div>

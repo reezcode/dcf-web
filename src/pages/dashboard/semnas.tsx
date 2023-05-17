@@ -20,7 +20,7 @@ export default function semnas() {
   return (
     <EmptyLayout pageTitle="Seminar Nasional">
       <div
-        className="bg-center bg-cover lg:w-screen h-fit lg:h-screen"
+        className="bg-center bg-cover lg:w-screen h-fit lg:h-screen m-font"
         style={{
           backgroundImage: "url('../../bgform.svg')",
         }}

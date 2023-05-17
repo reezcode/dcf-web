@@ -20,7 +20,7 @@ export default function profil() {
   return (
     <EmptyLayout pageTitle="LKTI">
       <div
-        className="bg-center bg-cover lg:w-screen h-fit lg:h-screen"
+        className="bg-center bg-cover lg:w-screen h-fit lg:h-screen m-font"
         style={{
           backgroundImage: "url('../../bgform.svg')",
         }}
@@ -143,7 +143,11 @@ export default function profil() {
                 <p className="text-[12px] text-black/60">Kontak</p>
                 <div className="flex items-center mb-2">
                   <BrandWhatsapp size={18} color="green" />
-                  <p className="mx-2 text-sm">No CP</p>
+                  <p className="mx-2 text-sm">
+                    <a href="https://wa.me/082279419057" target="_blank">
+                      Diah (LKTI)
+                    </a>
+                  </p>
                 </div>
               </div>
             </div>

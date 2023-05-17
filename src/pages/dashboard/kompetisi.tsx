@@ -1,9 +1,16 @@
+import { KompetisiForm } from "@/components/form";
 import { EmptyLayout } from "@/components/layout";
 import NavButton from "@/components/nav_button";
 import Sidebar from "@/components/sidebar";
 import NavDashboard from "@/configs/navigation_dashboard";
+import addData from "@/firebase/auth/addData";
+import getDataUser from "@/firebase/auth/getData";
+import { useAuth } from "@/firebase/provider/AuthProvider";
+import UserModel from "@/model/UserModel";
 import { Button, TextInput } from "@mantine/core";
-import { Cookies } from "react-cookie";
+import { notifications } from "@mantine/notifications";
+import router from "next/router";
+import { useState } from "react";
 import {
   At,
   BrandWhatsapp,
@@ -23,25 +30,49 @@ interface dataProps {
   };
 }
 
-interface dataCookies {
-  email: string;
-  isLoggedinIn: boolean;
-}
-
 export default function profil(props: dataProps) {
-  async function dataCheck() {
-    const response = await fetch("/api/auth/getData", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}),
+  const [data, setData] = useState<UserModel>({} as UserModel);
+  const { user, signIn } = useAuth();
+  const email = user?.email ? user.email : "Loading";
+  async function callData() {
+    await getDataUser(email).then((res) => {
+      setData(res);
     });
-    const dataUser = await response.json();
   }
-  dataCheck();
+  callData();
+  const handleSubmit = async () => {
+    const kompetisi = {
+      email: data.email,
+      no_hp: data.no_hp,
+      nama: data.nama,
+      asal_sekolah: data.asal_sekolah,
+      nilai_ujian: 0,
+      nilai_ujicoba: 0,
+      status_verifikasi: "Belum Terverifikasi",
+    };
+    try {
+      const { result, error } = await addData("kompetisi", email, kompetisi);
+      const updateUser = await addData("users", email, {
+        id_lomba: 1,
+      });
+      notifications.show({
+        title: "Berhasil",
+        message: "Registrasi berhasil kompetisi berhasil!",
+        color: "green",
+      });
+      router.push("/login");
+    } catch (e) {
+      notifications.show({
+        title: "Error",
+        message: "Terjadi kesalahan saat mendaftar",
+        color: "red",
+      });
+    }
+  };
   return (
     <EmptyLayout pageTitle="Kompetisi">
       <div
-        className="bg-center bg-cover lg:w-screen h-fit lg:h-screen"
+        className="bg-center bg-cover lg:w-screen h-fit lg:h-screen m-font"
         style={{
           backgroundImage: "url('../../bgform.svg')",
         }}
@@ -66,74 +97,71 @@ export default function profil(props: dataProps) {
                   Petunjuk Teknis
                 </Button>
               </div>
-              <div className="row-span-5 row-start-2 p-5 bg-white rounded-md shadow-lg shadow-dcf-dark-brown/30">
-                <p className="text-[12px] text-black/60">
-                  Formulir Pendaftaran
-                </p>
-                <div>
-                  <TextInput
-                    icon={<UserCircle size={20} />}
-                    id="nama"
-                    withAsterisk={true}
-                    label="Nama Lengkap"
-                    variant="filled"
-                    placeholder="Moestafa"
-                  />
+              <form
+                onSubmit={() => {
+                  handleSubmit();
+                }}
+              >
+                <div className="row-span-5 row-start-2 p-5 bg-white rounded-md shadow-lg shadow-dcf-dark-brown/30">
+                  <p className="text-[12px] text-black/60">
+                    Formulir Pendaftaran
+                  </p>
+                  <div>
+                    <TextInput
+                      icon={<UserCircle size={20} />}
+                      id="nama"
+                      withAsterisk={true}
+                      label="Nama Lengkap"
+                      variant="filled"
+                      value={data.nama}
+                    />
+                  </div>
+                  <div>
+                    <TextInput
+                      icon={<School size={20} />}
+                      label="Asal Sekolah"
+                      id="asal_sekolah"
+                      required
+                      withAsterisk={true}
+                      variant="filled"
+                      value={data.asal_sekolah}
+                    />
+                  </div>
+                  <div>
+                    <TextInput
+                      icon={<At size={20} />}
+                      id="input-email"
+                      withAsterisk={true}
+                      label="Email"
+                      variant="filled"
+                      value={data.email}
+                    />
+                  </div>
+                  <div>
+                    <TextInput
+                      icon={<BrandWhatsapp size={20} />}
+                      id="telp"
+                      label="Whatsapp"
+                      variant="filled"
+                      value={data.no_hp}
+                    />
+                  </div>
+                  <div className="mx-auto my-4 w-fit">
+                    <Button
+                      type="submit"
+                      className="w-full bg-dcf-dark-brown hover:bg-dcf-dark-brown/90"
+                    >
+                      Konfirmasi Data
+                    </Button>
+                    <p className="px-3 mt-3 text-sm text-center m-font">
+                      Untuk dapat mengedit data harap masuk ke menu Profile
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <TextInput
-                    icon={<School size={20} />}
-                    label="Asal Sekolah"
-                    id="asal_sekolah"
-                    required
-                    withAsterisk={true}
-                    placeholder="SMA 3 Bekasi"
-                    variant="filled"
-                  />
-                </div>
-                <div>
-                  <TextInput
-                    icon={<At size={20} />}
-                    id="input-email"
-                    withAsterisk={true}
-                    label="Email"
-                    variant="filled"
-                    placeholder="Moestafa1976@gmail.com"
-                  />
-                </div>
-                <div>
-                  <TextInput
-                    icon={<BrandWhatsapp size={20} />}
-                    id="telp"
-                    withAsterisk={true}
-                    label="Whatsapp"
-                    variant="filled"
-                    placeholder="08xxxx"
-                  />
-                </div>
-                <div className="mx-auto my-4 w-fit">
-                  <Button
-                    type="submit"
-                    className="w-full bg-dcf-dark-brown hover:bg-dcf-dark-brown/90"
-                  >
-                    Konfirmasi Data
-                  </Button>
-                </div>
-              </div>
+              </form>
               <div className="flex flex-col row-span-3 p-5 bg-white rounded-md shadow-lg shadow-dcf-dark-brown/30">
                 <p className="text-[12px] text-black/60">Bukti Pembayaran</p>
-                <div className="flex items-center self-center w-4/5 p-10 my-2 border-2 border-dashed rounded-md cursor-pointer border-dcf-dark-brown h-3/5">
-                  <FileUpload size={50} strokeWidth={1} color={"#967E76"} />
-                  <p className="mx-2 text-sm text-dcf-dark-brown">
-                    Klik di sini untuk mengunggah bukti pembayaran
-                  </p>
-                </div>
-                <Button
-                  type="submit"
-                  className="self-center w-fit bg-dcf-dark-brown hover:bg-dcf-dark-brown/90"
-                >
-                  Upload Bukti Pembayaran
-                </Button>
+                <KompetisiForm />
               </div>
               <div className="flex flex-col row-span-3 p-5 bg-white rounded-md shadow-lg shadow-dcf-dark-brown/30">
                 <p className="text-[12px] text-black/60">Status Registrasi</p>
@@ -144,7 +172,11 @@ export default function profil(props: dataProps) {
                 <p className="text-[12px] text-black/60">Kontak</p>
                 <div className="flex items-center mb-2">
                   <BrandWhatsapp size={18} color="green" />
-                  <p className="mx-2 text-sm">No CP</p>
+                  <p className="mx-2 text-sm">
+                    <a href="https://wa.me/088216639654" target="_blank">
+                      Zarka (Kompetisi)
+                    </a>
+                  </p>
                 </div>
               </div>
             </div>
@@ -239,15 +271,4 @@ export default function profil(props: dataProps) {
       </div>
     </EmptyLayout>
   );
-}
-
-export async function getServerSideProps(context: any) {
-  const cookies = new Cookies();
-  const email: boolean = cookies.get("email") !== undefined;
-  if (email) {
-    context.res.setHeader("Location", "/login");
-    context.res.statusCode = 302;
-    context.res.end();
-  }
-  return { props: {} };
 }

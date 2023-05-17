@@ -1,10 +1,8 @@
-import {
-  Autocomplete,
-  Button,
-  FileInput,
-  PasswordInput,
-  TextInput,
-} from "@mantine/core";
+import addData from "@/firebase/auth/addData";
+import getDataUser from "@/firebase/auth/getData";
+import { useAuth } from "@/firebase/provider/AuthProvider";
+import UserModel from "@/model/UserModel";
+import { Autocomplete, Button, PasswordInput, TextInput } from "@mantine/core";
 import {
   hasLength,
   isEmail,
@@ -13,8 +11,11 @@ import {
   useForm,
 } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
+import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import {
   At,
   CircleCheck,
@@ -23,21 +24,10 @@ import {
   School,
   UserCircle,
 } from "tabler-icons-react";
-import Image from "next/image";
-import { ChangeEvent, MouseEvent, useState } from "react";
-import axios from "axios";
-
-interface dataRegist {
-  nama: string;
-  email: string;
-  asal_sekolah: string;
-  password: string;
-  event: string;
-}
 
 function RegistrationForm() {
   const router = useRouter();
-  const [error, setError] = useState(null);
+  const { signUp } = useAuth();
   const form = useForm({
     initialValues: {
       nama: "",
@@ -54,42 +44,52 @@ function RegistrationForm() {
       confirmPassword: matchesField("password", "Passwords tidak sama"),
     },
   });
-  const register = async (values: dataRegist) => {
-    const response = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
-    if (response.status === 409) {
+  const register = async (user: UserModel) => {
+    const data = {
+      id_lomba: user.id_lomba,
+      email: user.email,
+      no_hp: user.no_hp,
+      nama: user.nama,
+      asal_sekolah: user.asal_sekolah,
+      ktm: user.ktm,
+    };
+    try {
+      await signUp(user.email, user.upassword);
+      try {
+        const { result, error } = await addData("users", user.email, data);
+        notifications.show({
+          title: "Berhasil",
+          message: "Registrasi berhasil, silahkan login",
+          color: "green",
+        });
+        router.push("/login");
+      } catch (e) {
+        notifications.show({
+          title: "Error",
+          message: "Terjadi kesalahan saat mendaftar",
+          color: "red",
+        });
+      }
+    } catch (e) {
       notifications.show({
-        title: "Peringatan",
-        message: "Email sudah terdaftar!",
+        title: "Registrasi gagal",
+        message: "Email sudah terdaftar",
         color: "red",
       });
-    }
-    if (response.ok) {
-      router.push("/login");
-      notifications.show({
-        title: "Sukses",
-        message: "Akun anda berhasil dibuat!",
-        color: "green",
-      });
-    } else {
-      const data = await response.json();
-      setError(data.message);
     }
   };
   return (
     <form
       onSubmit={form.onSubmit((values) => {
-        const dataUp: dataRegist = {
-          nama: values.nama,
+        const dataUp: UserModel = {
+          id_lomba: 0,
           email: values.email,
+          nama: values.nama,
           asal_sekolah: values.asal_sekolah,
-          password: values.password,
-          event: "",
+          upassword: values.password,
+          ktm: "",
+          no_hp: "",
+          url: "",
         };
         register(dataUp);
       })}
@@ -170,7 +170,18 @@ function UploadForm() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [ktm, setKtm] = useState(false);
-
+  const [datas, setDatas] = useState<UserModel>({} as UserModel);
+  const { user } = useAuth();
+  const email = user?.email ? user.email : "Loading";
+  async function callData() {
+    await getDataUser(email).then((res) => {
+      setDatas(res);
+    });
+  }
+  callData();
+  useEffect(() => {
+    setKtm(datas.url != "");
+  });
   const onFileUploadChange = (e: ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
 
@@ -214,12 +225,30 @@ function UploadForm() {
       if (!file) return;
       const formData = new FormData();
       formData.append("myImage", file);
-      const { data } = await axios.post("/api/utils/upload", formData);
+      const { data } = await axios.post("/api/utils/ktmUpload", formData);
       notifications.show({
         title: "Sukses",
         message: "File Kartu Pelajar/Mahasiswa Berhasil Diupload!",
         color: "green",
       });
+      const update = {
+        id_lomba: datas.id_lomba,
+        email: datas.email,
+        no_hp: datas.no_hp,
+        nama: datas.nama,
+        asal_sekolah: datas.asal_sekolah,
+        ktm: "yes",
+        url: data.url,
+      };
+      try {
+        const { result, error } = await addData("users", email, update);
+      } catch (e) {
+        notifications.show({
+          title: "Error",
+          message: "Terjadi kesalahan saat upload",
+          color: "red",
+        });
+      }
       setPreviewUrl(null);
       setKtm(true);
     } catch (error: any) {
@@ -292,4 +321,152 @@ function UploadForm() {
   );
 }
 
-export { RegistrationForm, UploadForm };
+function KompetisiForm() {
+  const [file, setFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [daftar, setDaftar] = useState(false);
+  const [datas, setDatas] = useState<UserModel>({} as UserModel);
+  const { user } = useAuth();
+  const email = user?.email ? user.email : "Loading";
+  async function callData() {
+    await getDataUser(email).then((res) => {
+      setDatas(res);
+    });
+  }
+  callData();
+  useEffect(() => {
+    setDaftar(datas.id_lomba == 1);
+  });
+  const onFileUploadChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const fileInput = e.target;
+
+    if (!fileInput.files) {
+      alert("No file was chosen");
+      return;
+    }
+    if (!fileInput.files || fileInput.files.length === 0) {
+      alert("Files list is empty");
+      return;
+    }
+    const file = fileInput.files[0];
+
+    /** File validation */
+    if (!file.type.startsWith("image")) {
+      alert("Please select a valide image");
+      return;
+    }
+
+    /** Setting file state */
+    setFile(file); //The file state, to send it later to the server
+    setPreviewUrl(URL.createObjectURL(file)); // To show the preview of the image
+
+    /** Reset file input */
+    e.currentTarget.type = "text";
+    e.currentTarget.type = "file";
+  };
+
+  const onCancelFile = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!previewUrl && !file) {
+      return;
+    }
+    setFile(null);
+    setPreviewUrl(null);
+  };
+
+  const onUploadFile = async () => {
+    setUploading(true);
+    try {
+      if (!file) return;
+      const formData = new FormData();
+      formData.append("myImage", file);
+      const { data } = await axios.post("/api/utils/kompetisiUpload", formData);
+      notifications.show({
+        title: "Sukses",
+        message: "Bukti Pembayaran Berhasil Diupload!",
+        color: "green",
+      });
+      const update = {
+        email: datas.email,
+        no_hp: datas.no_hp,
+        nama: datas.nama,
+        asal_sekolah: datas.asal_sekolah,
+        status: "Belum Terverifikasi",
+        url: data.url,
+        nilai_ujian: 0,
+        nilai_ujicoba: 0,
+      };
+      try {
+        const { result, error } = await addData("kompetisi", email, update);
+      } catch (e) {
+        notifications.show({
+          title: "Error",
+          message: "Terjadi kesalahan saat upload",
+          color: "red",
+        });
+      }
+      setPreviewUrl(null);
+    } catch (error: any) {
+      notifications.show({
+        title: "Gagal",
+        message: error.response?.data,
+        color: "red",
+      });
+    }
+    setUploading(false);
+  };
+
+  return (
+    <form
+      className="w-full p-3 mt-3 overflow-y-scroll border border-gray-500 border-dashed rounded-md h-fit scrollbar-hide"
+      onSubmit={(e) => e.preventDefault()}
+    >
+      <div className="flex flex-col gap-1.5 md:py-4">
+        <div className="flex-grow">
+          {previewUrl ? (
+            <div className="mx-auto w-fit">
+              <Image
+                alt="file uploader preview"
+                objectFit="cover"
+                src={previewUrl}
+                width={320}
+                height={218}
+                layout="fixed"
+              />
+            </div>
+          ) : (
+            <label className="flex flex-col items-center justify-center h-full py-3 transition-colors duration-150 cursor-pointer hover:text-gray-600">
+              <FileUpload size={40} color="grey" />
+              <strong className="text-sm font-medium">Select an image</strong>
+              <input
+                className="block w-0 h-0"
+                name="file"
+                type="file"
+                onChange={onFileUploadChange}
+              />
+            </label>
+          )}
+        </div>
+        <div className="flex mt-4 md:flex-col justify-center gap-1.5 ">
+          <Button
+            className="bg-dcf-brown/90 hover:bg-dcf-brown/80 active:bg-dcf-brown"
+            disabled={!previewUrl}
+            onClick={onCancelFile}
+          >
+            Cancel file
+          </Button>
+          <Button
+            className="bg-dcf-dark-brown/90 hover:bg-dcf-dark-brown/80 active:bg-dcf-dark-brown"
+            disabled={!previewUrl}
+            onClick={onUploadFile}
+          >
+            Upload file
+          </Button>
+        </div>
+      </div>
+    </form>
+  );
+}
+
+export { RegistrationForm, UploadForm, KompetisiForm };

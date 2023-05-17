@@ -1,16 +1,16 @@
+import { useAuth } from "@/firebase/provider/AuthProvider";
+import { notifications } from "@mantine/notifications";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import Buttons from "./buttons";
 import Logo from "./logo";
-import { Cookies } from "react-cookie";
-import { useEffect, useState } from "react";
-import { notifications } from "@mantine/notifications";
+import { getAuth, signOut } from "firebase/auth";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const cookies = new Cookies();
-  const data = cookies.get("email");
+  const { user } = useAuth();
   useEffect(() => {
-    setIsLoggedIn(data != undefined);
+    setIsLoggedIn(user != null);
   });
   return (
     <>
@@ -37,12 +37,7 @@ export default function Header() {
           {isLoggedIn ? (
             <form
               onSubmit={() => {
-                cookies.remove("email");
-                notifications.show({
-                  title: "Berhasil",
-                  message: "Akun anda telah berhasil dikeluarkan!",
-                  color: "green",
-                });
+                signOut(getAuth());
                 setIsLoggedIn(false);
               }}
             >
