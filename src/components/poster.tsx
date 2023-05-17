@@ -3,7 +3,6 @@ import ImageViewer from "react-simple-image-viewer";
 import { useState, useCallback, useEffect } from "react";
 import images from "@/configs/poster_data";
 import { useAnimation, motion } from "framer-motion";
-import { useAnimation, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 export default function PosterSection() {
@@ -22,8 +21,6 @@ export default function PosterSection() {
   };
 
   const { ref, inView } = useInView();
-
-  const { ref, inView } = useInView();
   const animation = useAnimation();
 
   useEffect(() => {
@@ -37,7 +34,6 @@ export default function PosterSection() {
     if (!inView) {
       animation.start({ y: 100, opacity: 0 });
     }
-  }, [inView]);
 
     if (inView) {
       animation.start({
@@ -93,8 +89,7 @@ export default function PosterSection() {
             onClose={closeImageViewer}
           />
         )}
-      </div>
+      </motion.div>
     </motion.div>
-  );
   );
 }
