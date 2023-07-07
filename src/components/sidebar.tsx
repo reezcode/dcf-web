@@ -2,7 +2,6 @@ import getDataUser from "@/firebase/auth/getData";
 import getData from "@/firebase/auth/getData";
 import { useAuth } from "@/firebase/provider/AuthProvider";
 import UserModel from "@/model/UserModel";
-import { QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
